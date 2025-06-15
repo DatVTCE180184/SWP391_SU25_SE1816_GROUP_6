@@ -70,7 +70,6 @@ Create table Product (
 
 	Product_Status BIT DEFAULT 1,
 
-
 	FOREIGN KEY (Category_ID) REFERENCES Category(Category_ID)
 );
 
@@ -173,19 +172,20 @@ VALUES
 
 select * from Orders
 SELECT 
-    U.User_ID,
-    U.Username,
-    U.Password,
-    U.Email,
-    U.Phone,
-    U.Address,
-    G.Gender,
-    U.Avatar,
-    U.Role_ID,
-    U.Created_At,
-    U.Updated_At
+    U.User_ID, U.Username, U.Password, U.Email,
+    U.Phone, U.Address, G.Gender_Name, U.Avatar,
+    U.Role_ID, U.Created_At, U.Updated_At
 FROM 
     Users U
 JOIN 
     Gender G ON U.Gender_ID = G.Gender_ID;
  
+
+SELECT 
+	p.Product_ID, p.Category_ID,
+	p.Product_Name, p.Product_Description,
+	p.Product_Image, p.Product_Price,
+	p.Product_Quantity, p.Product_Status
+
+FROM 
+	Product p
