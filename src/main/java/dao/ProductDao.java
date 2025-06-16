@@ -25,7 +25,7 @@ public class ProductDao extends DBContext {
                 + "	p.Product_ID, p.Category_ID,\n"
                 + "	p.Product_Name, p.Product_Description,\n"
                 + "	p.Product_Image, p.Product_Price,\n"
-                + "	p.Product_Price, p.Product_Status\n"
+                + "	p.Product_Quantity, p.Product_Status\n"
                 + "FROM \n"
                 + "	Product p";
         try {
