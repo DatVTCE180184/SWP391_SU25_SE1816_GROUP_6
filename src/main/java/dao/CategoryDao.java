@@ -4,10 +4,23 @@
  */
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+import model.Category;
+
 /**
  *
  * @author ADMIN
  */
 public class CategoryDao {
+
+    public CategoryDao() {
+        super();
+    }
     
+    public List<Category> getAllCategory(){
+        List<Category> listCat = new ArrayList<>();
+        
+        return listCat;
+    }
 }

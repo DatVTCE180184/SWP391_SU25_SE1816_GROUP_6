@@ -4,8 +4,15 @@
     Author     : ADMIN
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="model.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="dao.ProductDao" %>
+<%
+
+    List<Product> list = (List<Product>) request.getAttribute("list_Product");
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,12 +22,31 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
 
 
+        <style>
+            .product-card {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+                margin-bottom: 20px;
+                height: 100%;
+            }
+            .product-card img {
+                max-width: 100%;
+                height: auto;
+            }
+            .price {
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+
     </head>
     <body>
 
 
 
-        <div class="container mt-3" >
+        <div class="container-fluid mt-3" >
 
             <div>
                 <header>
@@ -33,10 +59,40 @@
 
             <div class="row">
                 <div class="col-sm-4 p-3 ">
-                    
-                    
+
+
                 </div>
-                <div class="col-sm-8 p-3 bg-dark text-white">.col</div>
+
+                <div class="col-md-9">
+                    <%                        if (list != null) {
+                    %>
+                    <div class="row">
+
+                        <%
+                            for (Product pro : list) {
+                        %>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="product-card">
+                                <img src="<%= pro.getPro_Image() %>" alt="<%= pro.getPro_Name() %>">
+                                <h6><%= pro.getPro_Name() %></h6>
+                                <p class="price"><%= pro.getPro_Price() %></p>
+                                <p> <%= pro.getPro_Description() %></p>
+                                <button class="btn btn-primary btn-sm">Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>
+
+                    </div>
+                    <%
+                        } else {
+                            out.println("No Data!");
+                        }
+                    %>
+
+                </div>
             </div>
 
 

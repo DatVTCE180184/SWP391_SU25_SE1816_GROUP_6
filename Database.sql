@@ -189,3 +189,8 @@ SELECT
 
 FROM 
 	Product p
+
+
+SELECT * 
+FROM 
+	Category
