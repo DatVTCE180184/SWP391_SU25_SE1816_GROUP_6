@@ -4,13 +4,15 @@
     Author     : ADMIN
 --%>
 
+<%@page import="model.Category"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="dao.ProductDao" %>
 <%
 
-    List<Product> list = (List<Product>) request.getAttribute("list_Product");
+    List<Product> list_Pro = (List<Product>) request.getAttribute("list_Product");
+    List<Category> list_Cat = (List<Category>) request.getAttribute("list_Category");
 
 %>
 <!DOCTYPE html>
@@ -59,17 +61,43 @@
 
             <div class="row">
                 <div class="col-sm-4 p-3 ">
-
-
-                </div>
-
-                <div class="col-md-9">
-                    <%                        if (list != null) {
+ <%                        if (list_Cat != null) {
                     %>
                     <div class="row">
 
                         <%
-                            for (Product pro : list) {
+                            for (Category cat : list_Cat) {
+                        %>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="product-card">
+                                <img src="<%= cat.getCat_img() %>" alt="<%= cat.getCat_Name() %>">
+                                <h6><%= cat.getCat_Name() %></h6>
+                                
+                                <p> <%= cat.getCat_Description() %></p>
+                                
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>
+
+                    </div>
+                    <%
+                        } else {
+                            out.println("No Data!");
+                        }
+                    %>
+
+                </div>
+
+                <div class="col-md-9">
+                    <%                        if (list_Pro != null) {
+                    %>
+                    <div class="row">
+
+                        <%
+                            for (Product pro : list_Pro) {
                         %>
 
                         <div class="col-lg-3 col-md-4 col-sm-6">
@@ -78,7 +106,7 @@
                                 <h6><%= pro.getPro_Name() %></h6>
                                 <p class="price"><%= pro.getPro_Price() %></p>
                                 <p> <%= pro.getPro_Description() %></p>
-                                <button class="btn btn-primary btn-sm">Thêm vào giỏ</button>
+                                <button  harclass="btn btn-primary btn-sm">Thêm vào giỏ</button>
                             </div>
                         </div>
                         <%

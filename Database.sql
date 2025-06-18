@@ -191,6 +191,9 @@ FROM
 	Product p
 
 
-SELECT * 
+SELECT  
+	c.Category_ID, c.Category_Name,
+	c.Category_Description, c.Category_Image,
+	c.Category_Parent_ID, c.Category_Status
 FROM 
-	Category
+	Category c

@@ -68,6 +68,7 @@ public class ProductController extends HttpServlet {
         switch (action) {
             case "list":
                 request.setAttribute("list_Product", proDao.getAllProduct());
+                request.setAttribute("list_Category", catDao.getAllCategory());
                 request.getRequestDispatcher("HomePage.jsp").forward(request, response);
                 break;
         }
