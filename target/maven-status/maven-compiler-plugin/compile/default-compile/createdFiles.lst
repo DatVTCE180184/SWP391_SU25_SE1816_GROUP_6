@@ -1,10 +1,10 @@
 dao\ProductDao.class
 controller\HomeController.class
 model\Order_Detail.class
-model\Product.class
-model\Category.class
 dao\UserDao.class
 controller\ProductController.class
 utils\DBContext.class
 model\Order.class
+model\Product.class
+model\Category.class
 model\User.class
