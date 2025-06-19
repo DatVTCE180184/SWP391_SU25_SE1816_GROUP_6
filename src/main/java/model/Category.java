@@ -27,13 +27,13 @@ public class Category {
         this.Cat_Status = false;
     }
 
-    public Category(int Cat_ID, String Cat_Name, String Cat_Description, int Cat_Parent_ID, String Cat_img, boolean Cat_Status) {
+    public Category(int Cat_ID, String Cat_Name, String Cat_Description, int Cat_Parent_ID, String Cat_img, int Cat_Status) {
         this.Cat_ID = Cat_ID;
         this.Cat_Name = Cat_Name;
         this.Cat_Description = Cat_Description;
         this.Cat_Parent_ID = Cat_Parent_ID;
         this.Cat_img = Cat_img;
-        this.Cat_Status = Cat_Status;
+        this.Cat_Status = (Cat_Status == 1);
     }
 
     public int getCat_ID() {

@@ -31,7 +31,7 @@ public class Product {
         this.Pro_Status = false;
     }
 
-    public Product(int Pro_ID, int Cat_ID, String Pro_Name, String Pro_Description, String Pro_Image, double Pro_Price, int Pro_Quantity, boolean Pro_Status) {
+    public Product(int Pro_ID, int Cat_ID, String Pro_Name, String Pro_Description, String Pro_Image, double Pro_Price, int Pro_Quantity, int Pro_Status) {
         this.Pro_ID = Pro_ID;
         this.Cat_ID = Cat_ID;
         this.Pro_Name = Pro_Name;
@@ -39,7 +39,8 @@ public class Product {
         this.Pro_Image = Pro_Image;
         this.Pro_Price = Pro_Price;
         this.Pro_Quantity = Pro_Quantity;
-        this.Pro_Status = Pro_Status;
+        this.Pro_Status = (Pro_Status == 1);
+//      this.Pro_Status = Pro_Status;
     }
 
     public int getPro_ID() {
@@ -110,6 +111,7 @@ public class Product {
     public String toString() {
         return "Product{" + "Pro_ID=" + Pro_ID + ", Cat_ID=" + Cat_ID + ", Pro_Name=" + Pro_Name + ", Pro_Description=" + Pro_Description + ", Pro_Image=" + Pro_Image + ", Pro_Price=" + Pro_Price + ", Pro_Quantity=" + Pro_Quantity + ", Pro_Status=" + Pro_Status + '}';
     }
+    
     
     
     
