@@ -179,7 +179,8 @@
 
                 <%          for (Product pro : list_Pro) {
                 %>
-                <div class="col">
+                <a href="product?action=details&id=<%= pro.getPro_ID() %>">
+                    <div class="col">
                     <div class="card h-100 shadow">
                         <img src="./img/9.png" class="card-img-top" alt="..." />
                         <div class="card-body">
@@ -192,6 +193,9 @@
                         </div>
                     </div>
                 </div>
+                    
+                </a>
+                
                 <%
                     }
                 %>

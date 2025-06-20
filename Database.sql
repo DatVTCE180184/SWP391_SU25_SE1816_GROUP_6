@@ -197,3 +197,33 @@ SELECT
 	c.Category_Parent_ID, c.Category_Status
 FROM 
 	Category c
+
+	select * from Users
+
+
+ /* 20-06-2025 . Commit: Update them ví dụ san pham */
+
+
+	INSERT INTO Product (Category_ID, Product_Name, Product_Description, Product_Image, Product_Price, Product_Quantity, Product_Status)
+VALUES 
+(1, 'iPhone 14 Pro Max', 'Apple flagship smartphone', 'iphone14promax.jpg', 1199.99, 20, 1),
+(1, 'Samsung Galaxy S24 Ultra', 'Latest Samsung phone with great camera', 'galaxys24ultra.jpg', 1099.99, 25, 1),
+(1, 'Xiaomi 13 Pro', 'Affordable and powerful', 'xiaomi13pro.jpg', 799.99, 40, 1),
+(1, 'Oppo Reno10', 'Stylish and slim smartphone', 'reno10.jpg', 499.99, 35, 1),
+(1, 'Vivo V27', 'Selfie camera king', 'vivov27.jpg', 429.99, 50, 1),
+(5, 'Asus ROG Phone 7', 'Gaming monster phone', 'rog7.jpg', 999.99, 15, 1),
+(5, 'Black Shark 5 Pro', 'High performance gaming', 'blackshark5.jpg', 849.99, 10, 1),
+(3, 'iPad Air 5', 'Powerful Apple tablet', 'ipadair5.jpg', 649.99, 30, 1),
+(4, 'Apple Watch Series 8', 'Smart wearable from Apple', 'watchs8.jpg', 399.99, 18, 1),
+(2, 'AirPods Pro 2', 'Wireless earbuds by Apple', 'airpodspro2.jpg', 249.99, 60, 1),
+(2, 'Samsung Galaxy Buds 2 Pro', 'Noise-cancelling earbuds', 'galaxybuds2pro.jpg', 199.99, 55, 1);
+
+-- Thêm vài danh mục mẫu
+INSERT INTO Category (Category_ID, Category_Name, Category_Description)
+VALUES 
+(4, 'Smart Watches', 'Wearable smart watches'),
+(5, 'Gaming Phones', 'Phones for gaming');
+
+
+select * from Product
+

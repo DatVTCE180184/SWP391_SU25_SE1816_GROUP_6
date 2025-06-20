@@ -87,7 +87,7 @@
         </style>
     </head>
     <body>
-        <%@include file="Header.jsp" %>
+        
         <div class="signup-container">
             <h2>SIGN UP</h2>
             <form id="signupForm" action="signup" method="post">

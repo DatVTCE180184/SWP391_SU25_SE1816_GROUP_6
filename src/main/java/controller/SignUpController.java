@@ -58,7 +58,7 @@ public class SignUpController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("Signup.jsp").forward(request, response);
+        request.getRequestDispatcher("SignUp.jsp").forward(request, response);
     } 
 
     /** 
@@ -139,13 +139,13 @@ public class SignUpController extends HttpServlet {
                 response.sendRedirect("Lognin.jsp");
             } else {
                 session.setAttribute("error", "Registration failed! Username, Email, or Phone may already exist.");
-                request.getRequestDispatcher("Signup.jsp").forward(request, response);
+                request.getRequestDispatcher("SignUp.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             session.setAttribute("error", "Internal server error: " + e.getMessage());
-            request.getRequestDispatcher("Signup.jsp").forward(request, response);
+            request.getRequestDispatcher("SignUp.jsp").forward(request, response);
         }
     }
 
