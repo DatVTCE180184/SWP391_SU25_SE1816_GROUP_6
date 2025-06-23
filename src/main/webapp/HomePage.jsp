@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@page import="dao.CategoryDao"%>
 <%@page import="model.Category"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Product"%>
@@ -11,8 +12,10 @@
 <%@page import="dao.ProductDao" %>
 <%
 
-    List<Product> list_Pro = (List<Product>) request.getAttribute("list_Product");
-    List<Category> list_Cat = (List<Category>) request.getAttribute("list_Category");
+    ProductDao Pro = new ProductDao();
+    CategoryDao cate = new CategoryDao();
+    List<Product> list_Pro = (List<Product>) Pro.getAllProduct();
+    List<Category> list_Cat = (List<Category>) cate.getAllCategory();
 
 %>
 <!DOCTYPE html>
@@ -179,28 +182,23 @@
 
                 <%          for (Product pro : list_Pro) {
                 %>
-                <div class="col">
+                <a href="product?action=details&id=<%= pro.getPro_ID() %>">
+                    <div class="col">
                     <div class="card h-100 shadow">
-                        <img src="<%= pro.getPro_Image() != null ? pro.getPro_Image() : "./img/9.png"%>" class="card-img-top" alt="<%= pro.getPro_Name()%>" />
+                        <img src="./img/9.png" class="card-img-top" alt="..." />
                         <div class="card-body">
                             <h5 class="card-title"><%= pro.getPro_Name()%></h5>
                             <p class="card-text"><%= pro.getPro_Description()%></p>
-                            <strong style="color: red"><%= pro.getPro_Price()%> ₫</strong>
+                            <strong style="color: red"><%= pro.getPro_Price()%> </strong>
                         </div>
                         <div class="card-footer">
-                            <form action="cart" method="post">
-                                <input type="hidden" name="action" value="add" />
-                                <input type="hidden" name="id" value="<%= pro.getPro_ID()%>" />
-                                <input type="hidden" name="name" value="<%= pro.getPro_Name()%>" />
-                                <input type="hidden" name="image" value="<%= pro.getPro_Image()%>" />
-                                <input type="hidden" name="price" value="<%= pro.getPro_Price()%>" />
-                                <input type="hidden" name="quantity" value="1" />
-                                <button type="submit" class="btn btn-warning w-100">🛒 Add to Cart</button>
-                            </form>
+                            <button class="btn btn-warning w-100">Buy now</button>
                         </div>
                     </div>
                 </div>
-
+                    
+                </a>
+                
                 <%
                     }
                 %>

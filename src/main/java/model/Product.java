@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nanofibers://SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nanofibers://SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
 
@@ -40,7 +40,6 @@ public class Product {
         this.Pro_Price = Pro_Price;
         this.Pro_Quantity = Pro_Quantity;
         this.Pro_Status = (Pro_Status == 1);
-//      this.Pro_Status = Pro_Status;
     }
 
     public int getPro_ID() {
@@ -111,8 +110,4 @@ public class Product {
     public String toString() {
         return "Product{" + "Pro_ID=" + Pro_ID + ", Cat_ID=" + Cat_ID + ", Pro_Name=" + Pro_Name + ", Pro_Description=" + Pro_Description + ", Pro_Image=" + Pro_Image + ", Pro_Price=" + Pro_Price + ", Pro_Quantity=" + Pro_Quantity + ", Pro_Status=" + Pro_Status + '}';
     }
-    
-    
-    
-    
 }
