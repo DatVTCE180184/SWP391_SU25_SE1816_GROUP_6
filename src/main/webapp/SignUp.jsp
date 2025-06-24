@@ -148,7 +148,7 @@
 
                 <button type="submit" class="btn btn-signup">Log In</button>
             </form>
-            <p class="login-link">Already have an account? <a href="signin">Sign In</a></p>
+            <p class="login-link">Already have an account? <a href="signin?action=signin">Sign In</a></p>
 
             <%-- Notification --%>
             <div class="mt-3">

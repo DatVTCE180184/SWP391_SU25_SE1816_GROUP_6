@@ -126,6 +126,20 @@ Create table Transactions (
 
 );
 
+CREATE TABLE Product_Review (
+    Review_ID INT IDENTITY(1,1) PRIMARY KEY,
+    User_ID INT NOT NULL,
+    Product_ID INT NOT NULL,
+    Order_ID INT NOT NULL,
+    Rating INT CHECK (Rating BETWEEN 1 AND 5) NOT NULL,
+    Comment NVARCHAR(MAX),
+    Review_Date DATETIME DEFAULT GETDATE(),
+
+    FOREIGN KEY (User_ID) REFERENCES Users(User_ID) ON DELETE NO ACTION,
+    FOREIGN KEY (Product_ID) REFERENCES Product(Product_ID) ON DELETE NO ACTION,
+    FOREIGN KEY (Order_ID) REFERENCES Orders(Order_ID) ON DELETE NO ACTION
+);
+
 INSERT INTO Gender (Gender_ID, Gender_Name)
 VALUES 
 (1, 'Male'),
@@ -225,5 +239,19 @@ VALUES
 (5, 'Gaming Phones', 'Phones for gaming');
 
 
-select * from Product
 
+INSERT INTO Product_Review (User_ID, Product_ID, Order_ID, Rating, Comment)
+VALUES (3, 1, 1, 5, N'The phone runs smoothly and has great battery life.');
+
+
+select * from Orders
+
+select * from Role
+
+select * from Product where Category_ID = 1
+
+update Product
+set Product_Image = 'https://samcenter.vn/images/thumbs/0001518_galaxy-buds-2-pro.jpeg'
+where Product_ID = 14;
+
+select * from Category

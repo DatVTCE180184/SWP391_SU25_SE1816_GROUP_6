@@ -30,7 +30,7 @@ public class User {
         this.address = "";
         this.gender = 3;
         this.avatar = "";
-        this.role_ID = 3;
+        this.role_ID = 0;
     }
 
     public User(int ID, String username, String password, String email, String phone, String address, int gender, String avatar, int role_ID) {

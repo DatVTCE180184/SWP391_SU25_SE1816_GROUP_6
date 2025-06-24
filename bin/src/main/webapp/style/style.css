@@ -1,0 +1,143 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+
+ 
+    Created on : Jun 19, 2025, 10:04:37 AM
+    Author     : Lenovo*/
+
+header{
+    background-color:#FFA94D;
+    margin: 10px;
+}
+.header-link  a {
+    text-decoration: none;
+     color:white;
+}
+.header-link ul{
+      list-style: none;
+}
+
+
+
+.search-sugget {
+    padding: 10px 0px 5px 100px;
+    background-color: #fffaf3; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    font-family: Arial, sans-serif;
+}
+
+.search-sugget ul {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin-left: 10px;
+    gap: 10px;
+}
+
+.search-sugget strong {
+ 
+    color: #e67e22; 
+    font-size: 16px;
+}
+
+
+
+.search-sugget a {
+    text-decoration: none;
+    color: #ffa94d; 
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.search-sugget a:hover {
+    color: #ff7f00; 
+    text-decoration: underline;
+}
+.carousel-image-wrapper {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+
+    height: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+        
+header {
+    position: relative;
+}
+
+
+.account-cart {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+
+.header-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 30px;  
+}
+
+.search-box {
+    display: flex;
+    width: 50%;
+    gap: 5px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 8px;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+ .img-wrapper {
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+}
+
+.uniform-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.img-wrapper img {
+ box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+  border-radius: 10px; 
+ margin: 10px;
+}
+.container-logo img {
+  max-width: 100px;
+  height: auto;
+}
+
+input::placeholder {
+  font-style: italic;
+}
+
+.btn-warning {
+  font-weight: bold;
+}
+

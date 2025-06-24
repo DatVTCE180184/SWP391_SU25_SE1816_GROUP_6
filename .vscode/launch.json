@@ -1,0 +1,55 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "CategoryDao",
+            "request": "launch",
+            "mainClass": "dao.CategoryDao",
+            "projectName": "Smartphone_Retail_Management_System"
+        },
+        {
+            "type": "java",
+            "name": "ProductDao",
+            "request": "launch",
+            "mainClass": "dao.ProductDao",
+            "projectName": "Smartphone_Retail_Management_System"
+        },
+        {
+            "type": "java",
+            "name": "UserDao",
+            "request": "launch",
+            "mainClass": "dao.UserDao",
+            "projectName": "Smartphone_Retail_Management_System"
+        },
+        {
+            "label": "compile",
+            "type": "shell",
+            "command": "mvn -B compile"
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "mvn -B test"
+        },
+        {
+            "label": "package",
+            "type": "shell",
+            "command": "mvn -B package"
+        },
+        {
+            "label": "install",
+            "type": "shell",
+            "command": "mvn -B install"
+        }
+    ]
+}

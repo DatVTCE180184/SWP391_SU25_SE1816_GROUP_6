@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.CategoryDao;
 import dao.ProductDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,8 +64,19 @@ public class HomeController extends HttpServlet {
         if (action == null) {
             action = "list";
             request.setAttribute("action", action);
-            response.sendRedirect("product");
+            request.setAttribute("action", action);
+            request.getRequestDispatcher("product").forward(request, response);
+            return;
         }
+
+//        ProductDao proDao = new ProductDao();
+//        CategoryDao catDao = new CategoryDao();
+//
+//        request.setAttribute("list_Product", proDao.getAllProduct());
+//        request.setAttribute("list_Category", catDao.getAllCategory());
+
+        request.getRequestDispatcher("HomePage.jsp").forward(request, response);
+
     }
 
     /**

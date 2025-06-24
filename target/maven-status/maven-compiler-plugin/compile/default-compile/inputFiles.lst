@@ -1,4 +1,6 @@
+E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\model\CartItem.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\model\Order_Detail.java
+E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\controller\CartController.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\dao\UserDao.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\model\Order.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\model\Product.java
@@ -6,7 +8,10 @@ E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\ja
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\utils\DBContext.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\controller\ForgetPasswordController.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\model\Category.java
+E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\controller\SearchingController.java
+E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\dao\OrderDao.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\controller\HomeController.java
+E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\controller\ProfileController.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\dao\ProductDao.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\model\User.java
 E:\Ki_5_SU25\SWP391\Project_SRMS\Smartphone_Retail_Management_System\src\main\java\dao\CategoryDao.java

@@ -219,6 +219,35 @@ public class UserDao extends DBContext {
         }
         return false;
     }
+    
+    
+    // Lấy thông tin user theo ID
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM Users WHERE User_ID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setID(rs.getInt("User_ID"));
+                user.setUsername(rs.getString("Username"));
+                user.setPassword(rs.getString("Password"));
+                user.setEmail(rs.getString("Email"));
+                user.setPhone(rs.getString("Phone"));
+                user.setAddress(rs.getString("Address"));
+                user.setGender(rs.getInt("Gender_ID"));
+                user.setAvatar(rs.getString("Avatar"));
+                user.setRole_ID(rs.getInt("Role_ID"));
+//                user.setCreatedAt(rs.getString("Created_At"));
+//                user.setUpdatedAt(rs.getString("Updated_At"));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         UserDao dao = new UserDao();
@@ -227,5 +256,13 @@ public class UserDao extends DBContext {
         for (User u : dao.getAllUser()) {
             System.out.println(u.toString());
         }
+    }
+
+    public boolean updateUserProfile(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void updatePasswordById(int id, String newPassword) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

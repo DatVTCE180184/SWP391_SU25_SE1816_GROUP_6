@@ -7,12 +7,22 @@
 <%@page import="model.Category"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Product"%>
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="dao.ProductDao" %>
 <%
 
+    User acc = (User) session.getAttribute("user");
+    if (acc == null) {
+    
+        acc = new User();
+        session.setAttribute("user", acc);
+        
+    }
+
     List<Product> list_Pro = (List<Product>) request.getAttribute("list_Product");
     List<Category> list_Cat = (List<Category>) request.getAttribute("list_Category");
+
 
 %>
 <!DOCTYPE html>
@@ -31,45 +41,6 @@
     </head>
 
     <body>
-        <!-- HEADER -->
-        <!--        <header class="container-fluid bg-warning py-3">
-                    <div class="container">
-                        <div class="d-flex justify-content-between align-items-center">
-                             Logo 
-                            <div class="container-logo">
-                                <img src="./img/logo2.png" alt="Logo" width="100" class="img-fluid" />
-                            </div>
-        
-                             Thanh tìm kiếm 
-                            <div class="flex-grow-1 px-4">
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Hôm nay bạn muốn tìm kiếm gì?" />
-                                    <button class="btn btn-warning">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                </div>
-                            </div>
-        
-                             Liên kết đăng nhập 
-                            <div class="text-end d-flex align-items-center gap-3">
-                                <div>
-                                    <a href="signin" class="text-white text-decoration-none">Sign In</a>
-                                    <span class="text-white px-1">|</span>
-                                    <a href="signup" class="text-white text-decoration-none">Sign Up</a>
-                                </div>
-                                 Nút tài khoản 
-                                <button class="btn btn-warning">Account</button>
-                                 Nút giỏ hàng 
-                                <button class="btn btn-warning">
-                                    <i class="fa-solid fa-cart-shopping"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </header>-->
         <%@include file="Header.jsp" %>
         <!-- NAV + CAROUSEL -->
         <div class="search-sugget">
@@ -150,7 +121,8 @@
                     %>
                     <li class="d-flex align-items-center mb-3">
                         <img src="./img/icon-dienthoai.png" alt="Điện thoại" class="me-2 rounded-circle" width="32" height="32" />
-                        <span><%= cat.getCat_Name()%></span>
+<!--                        <span><%= cat.getCat_Name()%></span>-->
+                        <a href="product?action=list&cat_ID=<%= cat.getCat_ID()%>" > <%= cat.getCat_Name()%>  </a>
                     </li>
                     <%
                         }
@@ -175,34 +147,34 @@
                 } else {
             %>
 
-            <div class="row row-cols-1 row-cols-md-4 g-4">
-
-                <%          for (Product pro : list_Pro) {
-                %>
-                <a href="product?action=details&id=<%= pro.getPro_ID() %>">
-                    <div class="col">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+                <% for (Product pro : list_Pro) {%>
+                <div class="col d-flex align-items-stretch">
                     <div class="card h-100 shadow">
-                        <img src="./img/9.png" class="card-img-top" alt="..." />
-                        <div class="card-body">
+                        <a href="product?action=details&id=<%= pro.getPro_ID()%>">
+                            <img src="<%= pro.getPro_Image()%>" class="card-img-top" alt="<%= pro.getPro_Name()%>" />
+                        </a>
+                        <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><%= pro.getPro_Name()%></h5>
                             <p class="card-text"><%= pro.getPro_Description()%></p>
-                            <strong style="color: red"><%= pro.getPro_Price()%> </strong>
+                           <strong style="color: red"><%= pro.getPro_Price() %> $</strong>
                         </div>
-                        <div class="card-footer">
-                            <button class="btn btn-warning w-100">Buy now</button>
+                        <div class="card-footer bg-white border-0">
+                            <form action="cart" method="post">
+                                <input type="hidden" name="action" value="add" />
+                                <input type="hidden" name="id" value="<%= pro.getPro_ID()%>" />
+                                <input type="hidden" name="name" value="<%= pro.getPro_Name()%>" />
+                                <input type="hidden" name="image" value="<%= pro.getPro_Image()%>" />
+                                <input type="hidden" name="price" value="<%= pro.getPro_Price()%>" />
+                                <input type="hidden" name="quantity" value="1" />
+                                <button type="submit" class="btn btn-warning w-100">🛒 Add to Cart</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                    
-                </a>
-                
-                <%
-                    }
-                %>
-
-                <%
-                    }
-                %>
+                <% } %>
+            </div>
+            <% }%>
 
         </section>
 

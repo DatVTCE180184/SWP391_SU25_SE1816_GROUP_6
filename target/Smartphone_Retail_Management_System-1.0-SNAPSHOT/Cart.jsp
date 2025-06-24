@@ -1,0 +1,202 @@
+<%@page import="model.User"%>
+<%@ page import="java.util.*, model.CartItem" %>
+<%@ page session="true" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%
+    User acc = (User) session.getAttribute("user");
+    if (acc == null) {
+      session.setAttribute("redirectAfterLogin", "cart");
+        response.sendRedirect("signin?action=signin");
+    }
+    ArrayList<CartItem> cart = (ArrayList<CartItem>) session.getAttribute("cart");
+
+    double total = 0;
+%>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Your Shopping Cart</title>
+        <style>
+            body {
+                font-family: "Segoe UI", sans-serif;
+                background-color: #f4f4f4;
+                padding: 40px;
+                margin: 0;
+            }
+
+            .cart-container {
+                max-width: 1000px;
+                margin: auto;
+                background-color: #fff;
+                border-radius: 12px;
+                padding: 40px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            h2 {
+                text-align: center;
+                color: #222;
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th {
+                background-color: #ffcc00;
+                color: #222;
+                padding: 14px;
+                text-transform: uppercase;
+            }
+
+            td {
+                padding: 16px;
+                border-bottom: 1px solid #eee;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            img {
+                width: 70px;
+                border-radius: 8px;
+            }
+
+            .quantity-btn {
+                background-color: #ffcc00;
+                border: none;
+                padding: 6px 12px;
+                font-weight: bold;
+                cursor: pointer;
+                border-radius: 6px;
+                transition: background-color 0.2s;
+            }
+
+            .quantity-btn:hover {
+                background-color: #f0b400;
+            }
+
+            .remove-btn {
+                background-color: #e74c3c;
+                color: white;
+                padding: 6px 14px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+
+            .remove-btn:hover {
+                background-color: #c0392b;
+            }
+
+            .total {
+                text-align: right;
+                font-size: 20px;
+                font-weight: bold;
+                margin-top: 20px;
+                color: #333;
+            }
+
+            .action-form {
+                display: inline-block;
+            }
+
+            .empty-message {
+                text-align: center;
+                font-size: 18px;
+                color: #888;
+            }
+
+            .back-btn {
+                display: inline-block;
+                margin-bottom: 20px;
+                padding: 10px 18px;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #ddd;
+                color: #333;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.25s ease;
+                text-decoration: none;
+            }
+
+            .back-btn:hover {
+                background-color: #ccc;
+                color: #000;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="cart-container">
+            <a href="javascript:history.back()" class="back-btn">← Back</a>
+
+            <h2>🛒 Your Shopping Cart</h2>
+
+            <%
+                if (cart == null || cart.isEmpty()) {
+            %>
+            <p class="empty-message">Your cart is currently empty.</p>
+            <%
+            } else {
+            %>
+            <table>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+
+                <% for (CartItem item : cart) {
+                        double itemTotal = item.getPrice() * item.getQuantity();
+                        total += itemTotal;
+                %>
+                <tr>
+                    <td><img src="<%= item.getImage()%>" alt="<%= item.getName()%>" /></td>
+                    <td><%= item.getName()%></td>
+                    <td><%= String.format("%,.0f", item.getPrice())%> ₫</td>
+                    <td>
+                        <form class="action-form" action="cart" method="post">
+                            <input type="hidden" name="action" value="decrease" />
+                            <input type="hidden" name="id" value="<%= item.getId()%>" />
+                            <button class="quantity-btn">−</button>
+                        </form>
+
+                        <strong><%= item.getQuantity()%></strong>
+
+                        <form class="action-form" action="cart" method="post">
+                            <input type="hidden" name="action" value="increase" />
+                            <input type="hidden" name="id" value="<%= item.getId()%>" />
+                            <button class="quantity-btn">+</button>
+                        </form>
+                    </td>
+                    <td><%= String.format("%,.0f", itemTotal)%> ₫</td>
+                    <td>
+                        <form action="cart" method="post">
+                            <input type="hidden" name="action" value="remove" />
+                            <input type="hidden" name="id" value="<%= item.getId()%>" />
+                            <button class="remove-btn">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }%>
+            </table>
+
+            <div class="total">
+                Total: <%= String.format("%,.0f", total)%> ₫
+            </div>
+            <% }%>
+        </div>
+
+    </body>
+</html>
