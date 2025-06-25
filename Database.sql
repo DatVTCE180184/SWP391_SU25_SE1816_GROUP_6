@@ -238,20 +238,20 @@ VALUES
 (4, 'Smart Watches', 'Wearable smart watches'),
 (5, 'Gaming Phones', 'Phones for gaming');
 
-
-
 INSERT INTO Product_Review (User_ID, Product_ID, Order_ID, Rating, Comment)
 VALUES (3, 1, 1, 5, N'The phone runs smoothly and has great battery life.');
 
 
-select * from Orders
+
+
+select * from Users
 
 select * from Role
 
 select * from Product where Category_ID = 1
 
-update Product
-set Product_Image = 'https://samcenter.vn/images/thumbs/0001518_galaxy-buds-2-pro.jpeg'
-where Product_ID = 14;
+update Category
+set Category_Image = 'fa-gamepad'
+where Category_ID = 4;
 
 select * from Category

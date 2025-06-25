@@ -97,28 +97,28 @@ public class ForgetPasswordController extends HttpServlet {
         request.setAttribute("emailChecked", true);
         if (newPassword == null || confirmPassword == null || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             session.setAttribute("error", "Please enter both new password and confirm password!");
-            request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("ForgetPassword.jsp").forward(request, response);
             return;
         }
         if (!newPassword.equals(confirmPassword)) {
             session.setAttribute("error", "Passwords do not match!");
-            request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("ForgetPassword.jsp").forward(request, response);
             return;
         }
         UserDao usersDAO = new UserDao();
         User user = usersDAO.getUserByEmail(email);
         if (user == null) {
             session.setAttribute("error", "Email does not exist in the system!");
-            request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("ForgetPassword.jsp").forward(request, response);
             return;
         }
         boolean updated = usersDAO.updatePasswordByEmail(email, newPassword);
         if (updated) {
             session.setAttribute("success", "Password changed successfully! Please sign in again.");
-            response.sendRedirect("Login.jsp");
+            response.sendRedirect("SignIn.jsp");
         } else {
             session.setAttribute("error", "An error occurred while updating the password. Please try again!");
-            request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("ForgetPassword.jsp").forward(request, response);
         }
     }
 

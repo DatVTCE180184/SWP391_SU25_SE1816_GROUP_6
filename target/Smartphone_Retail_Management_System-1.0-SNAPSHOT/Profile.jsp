@@ -166,7 +166,7 @@
                     <a href="#"><i class="fas fa-history"></i> Purchase History</a>
                     <a href="#" class="active"><i class="fas fa-user"></i> Personal Information</a>
                     <a href="#"><i class="fas fa-star"></i> Manage Reviews</a>
-                    <a href="signin?action=logout" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
             <div class="main-content">

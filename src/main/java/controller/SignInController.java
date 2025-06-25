@@ -109,7 +109,7 @@ public class SignInController extends HttpServlet {
         // Validate input
         if (username == null || password == null || username.trim().isEmpty() || password.trim().isEmpty()) {
             session.setAttribute("error", "Username and password are required!");
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            request.getRequestDispatcher("signin.jsp").forward(request, response);
             return;
         }
 
@@ -136,7 +136,7 @@ public class SignInController extends HttpServlet {
                 String redirect = (String) session.getAttribute("redirectAfterLogin");
                 if (redirect != null) {
                     session.removeAttribute("redirectAfterLogin");
-                    response.sendRedirect(redirect);
+                   response.sendRedirect(redirect);
                     return;
                 }
 

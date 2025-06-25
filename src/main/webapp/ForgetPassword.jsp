@@ -7,7 +7,7 @@
         <title>Forgot Password - Smartphone retail management system</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-        <style>
+     <style>
             body {
                 background: #FFF8E7;
                 display: flex;
@@ -17,18 +17,18 @@
                 font-family: 'Poppins', sans-serif;
                 margin: 0;
             }
-            .forgot-container {
+            .forget-container {
                 background: white;
                 padding: 40px;
                 border-radius: 20px;
-                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 15px 30px rgba(0 , 0, 0, 0.15);
                 text-align: center;
                 max-width: 400px;
                 width: 100%;
             }
-            .forgot-container h2 {
+            .forget-container h2 {
                 font-family: 'Fredoka One', cursive;
-                color: #006400;
+                color: #ffc107;
                 margin-bottom: 20px;
                 font-size: 32px;
             }
@@ -36,15 +36,15 @@
                 border-radius: 40px;
                 padding: 12px;
                 font-size: 14px;
-                border: 2px solid #006400;
+                border: 2px solid #ffc107;
                 transition: border-color 0.3s;
             }
             .form-control:focus {
                 border-color: #66CC99;
                 box-shadow: 0 0 7px rgba(255, 145, 77, 0.5);
             }
-            .btn-forgot {
-                background: linear-gradient(135deg, #00C853, #009688);
+            .btn-forget {
+                background: linear-gradient(135deg, #00C853, #ffc107);
                 color: white;
                 border: none;
                 padding: 12px;
@@ -54,7 +54,7 @@
                 font-weight: bold;
                 transition: all 0.2s;
             }
-            .btn-forgot:hover {
+            .btn-forget:hover {
                 background: linear-gradient(135deg, #FF6200, #E65100);
                 box-shadow: 0 5px 12px rgba(255, 98, 0, 0.35);
                 transform: scale(1.07);
@@ -65,16 +65,16 @@
                 text-align: left;
                 margin-top: 5px;
             }
-            .login-link {
+            .signIn-link {
                 margin-top: 15px;
                 font-size: 15px;
             }
-            .login-link a {
-                color: #006400;
+            .signIn-link a {
+                color: #ffc107;
                 font-weight: bold;
                 text-decoration: none;
             }
-            .login-link a:hover {
+            .signIn-link a:hover {
                 text-decoration: underline;
             }
         </style>

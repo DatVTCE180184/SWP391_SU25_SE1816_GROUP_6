@@ -120,9 +120,11 @@
                     <%            for (Category cat : list_Cat) {
                     %>
                     <li class="d-flex align-items-center mb-3">
-                        <img src="./img/icon-dienthoai.png" alt="Điện thoại" class="me-2 rounded-circle" width="32" height="32" />
+                      
 <!--                        <span><%= cat.getCat_Name()%></span>-->
-                        <a href="product?action=list&cat_ID=<%= cat.getCat_ID()%>" > <%= cat.getCat_Name()%>  </a>
+                        
+                        <a href="product?action=list&cat_ID=<%= cat.getCat_ID()%>" > 
+                             <i class="fa-solid <%= cat.getCat_img() %> me-2 fs-5"></i>   <%= cat.getCat_Name()%>  </a>
                     </li>
                     <%
                         }
@@ -142,7 +144,7 @@
             </div>
         </div>
         <section class="container my-5">
-            <% if (list_Cat == null) {
+            <% if (list_Pro == null) {
                     out.println("No Data!");
                 } else {
             %>

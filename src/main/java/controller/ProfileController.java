@@ -64,9 +64,13 @@ public class ProfileController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         if (user == null || user.getRole_ID() == 0) {
             session.setAttribute("redirectAfterLogin", "profile");
-            response.sendRedirect("signin?action=signin");
+            request.getRequestDispatcher("signin?action=signin").forward(request, response);
             return;
         }
+        
+        UserDao userDAO = new UserDao();
+        user = userDAO.getUserById(user.getID());
+        session.setAttribute("user", user); // Cập nhật session
 
         request.getRequestDispatcher("Profile.jsp").forward(request, response);
     }

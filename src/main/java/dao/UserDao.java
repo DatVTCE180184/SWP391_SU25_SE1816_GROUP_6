@@ -224,12 +224,13 @@ public class UserDao extends DBContext {
     // Lấy thông tin user theo ID
     public User getUserById(int id) {
         String sql = "SELECT * FROM Users WHERE User_ID = ?";
+         User user = new User();
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                User user = new User();
+               
                 user.setID(rs.getInt("User_ID"));
                 user.setUsername(rs.getString("Username"));
                 user.setPassword(rs.getString("Password"));
@@ -246,7 +247,7 @@ public class UserDao extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
 
     public static void main(String[] args) {

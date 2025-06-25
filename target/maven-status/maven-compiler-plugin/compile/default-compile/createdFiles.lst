@@ -3,6 +3,7 @@ model\CartItem.class
 controller\HomeController.class
 controller\ProfileController.class
 controller\ForgetPasswordController.class
+controller\SearchingController.class
 model\Order_Detail.class
 dao\UserDao.class
 controller\ProductController.class

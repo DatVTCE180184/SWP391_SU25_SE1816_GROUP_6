@@ -79,9 +79,9 @@
 
                         %> 
                          <div>
-                            <a href="profile" class="text-white text-decoration-none">Hello, <%= user.getUsername() %>! </a>
-                            <span class="text-white px-1">|</span>
-                            <a href="signin?action=logout" class="text-white text-decoration-none">Log Out</a>
+                             <a href="profile" class="btn btn-success" style="background:rgba(255, 98, 0, 0.35);border:none;">
+                        Hello, <%= user.getUsername()%>
+                    </a>
                         </div>
                         
                         <%
