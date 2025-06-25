@@ -19,19 +19,23 @@
     <meta charset="UTF-8">
     <title>Your Shopping Cart</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: "Segoe UI", sans-serif;
             background-color: #f4f4f4;
-            padding: 40px;
-            margin: 0;
         }
 
         .cart-container {
-            max-width: 1000px;
-            margin: auto;
+            width: 90%;
+            margin: 20px auto;
             background-color: #fff;
             border-radius: 12px;
-            padding: 40px;
+            padding: 30px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
@@ -101,6 +105,27 @@
             color: #333;
         }
 
+        .checkout-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .checkout-btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #219150;
+        }
+
         .action-form {
             display: inline-block;
         }
@@ -114,66 +139,76 @@
 </head>
 <body>
 
-<div class="cart-container">
-    <h2>🛒 Your Shopping Cart</h2>
+    <%-- ✅ Header --%>
+    <jsp:include page="Header.jsp" />
 
-    <%
-        if (cart.isEmpty()) {
-    %>
-        <p class="empty-message">Your cart is currently empty.</p>
-    <%
-        } else {
-    %>
-    <table>
-        <tr>
-            <th>Image</th>
-            <th>Product</th>
-            <th>Unit Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-            <th>Action</th>
-        </tr>
+    <div class="cart-container">
+        <h2>🛒 Your Shopping Cart</h2>
 
-        <% for (CartItem item : cart) {
-            double itemTotal = item.getPrice() * item.getQuantity();
-            total += itemTotal;
+        <%
+            if (cart.isEmpty()) {
         %>
-        <tr>
-            <td><img src="<%= item.getImage() %>" alt="<%= item.getName() %>" /></td>
-            <td><%= item.getName() %></td>
-            <td><%= String.format("%,.0f", item.getPrice()) %> ₫</td>
-            <td>
-                <form class="action-form" action="cart" method="post">
-                    <input type="hidden" name="action" value="decrease" />
-                    <input type="hidden" name="id" value="<%= item.getId() %>" />
-                    <button class="quantity-btn">−</button>
-                </form>
+            <p class="empty-message">Your cart is currently empty.</p>
+        <%
+            } else {
+        %>
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
 
-                <strong><%= item.getQuantity() %></strong>
+            <% for (CartItem item : cart) {
+                double itemTotal = item.getPrice() * item.getQuantity();
+                total += itemTotal;
+            %>
+            <tr>
+                <td><img src="<%= item.getImage() %>" alt="<%= item.getName() %>" /></td>
+                <td><%= item.getName() %></td>
+                <td><%= String.format("%,.0f", item.getPrice()) %> ₫</td>
+                <td>
+                    <form class="action-form" action="cart" method="post">
+                        <input type="hidden" name="action" value="decrease" />
+                        <input type="hidden" name="id" value="<%= item.getId() %>" />
+                        <button class="quantity-btn">−</button>
+                    </form>
 
-                <form class="action-form" action="cart" method="post">
-                    <input type="hidden" name="action" value="increase" />
-                    <input type="hidden" name="id" value="<%= item.getId() %>" />
-                    <button class="quantity-btn">+</button>
-                </form>
-            </td>
-            <td><%= String.format("%,.0f", itemTotal) %> ₫</td>
-            <td>
-                <form action="cart" method="post">
-                    <input type="hidden" name="action" value="remove" />
-                    <input type="hidden" name="id" value="<%= item.getId() %>" />
-                    <button class="remove-btn">Remove</button>
-                </form>
-            </td>
-        </tr>
+                    <strong><%= item.getQuantity() %></strong>
+
+                    <form class="action-form" action="cart" method="post">
+                        <input type="hidden" name="action" value="increase" />
+                        <input type="hidden" name="id" value="<%= item.getId() %>" />
+                        <button class="quantity-btn">+</button>
+                    </form>
+                </td>
+                <td><%= String.format("%,.0f", itemTotal) %> ₫</td>
+                <td>
+                    <form action="cart" method="post">
+                        <input type="hidden" name="action" value="remove" />
+                        <input type="hidden" name="id" value="<%= item.getId() %>" />
+                        <button class="remove-btn">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            <% } %>
+        </table>
+
+        <div class="total">
+            Total: <%= String.format("%,.0f", total) %> ₫
+        </div>
+
+        <div class="checkout-container">
+            <form action="checkout.jsp" method="post">
+                <button type="submit" class="checkout-btn">Check Out</button>
+            </form>
+        </div>
+
         <% } %>
-    </table>
-
-    <div class="total">
-        Total: <%= String.format("%,.0f", total) %> ₫
     </div>
-    <% } %>
-</div>
 
 </body>
 </html>
