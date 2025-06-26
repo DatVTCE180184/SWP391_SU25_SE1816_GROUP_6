@@ -218,10 +218,12 @@
             </div>
         </div>
         <script>
-            document.getElementById('logout-link').addEventListener('click', function (event) {
-                if (!confirm('Are you sure you want to log out?')) {
-                    event.preventDefault();
-                }
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('logout-link').addEventListener('click', function (event) {
+                    if (!confirm('Are you sure you want to log out?')) {
+                        event.preventDefault();
+                    }
+                });
             });
         </script>
     </body>

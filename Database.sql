@@ -242,8 +242,67 @@ INSERT INTO Product_Review (User_ID, Product_ID, Order_ID, Rating, Comment)
 VALUES (3, 1, 1, 5, N'The phone runs smoothly and has great battery life.');
 
 
+update Product
+set Product_Image = 'https://cdn.tgdd.vn/Products/Images/42/289663/iPhone-14-plus-thumb-den-600x600.jpg'
+where Product_ID = 1;
+
+update Product
+set Product_Image = 'https://cdn.xtmobile.vn/vnt_upload/product/10_2023/thumbs/(600x600)_crop_samsung-galaxy-s23-fe-xtmobile.png'
+where Product_ID = 2;
 
 
+update Product
+set Product_Image = 'https://galaxydidong.vn/wp-content/uploads/2022/09/14-pro-max-galaxydidong-vang.jpg'
+where Product_ID = 4;
+
+
+update Product
+set Product_Image = 'https://baotinmobile.vn/uploads/2024/02/s24-ultra-tim.jpg'
+where Product_ID = 5;
+
+
+update Product
+set Product_Image = 'https://cdn.tgdd.vn/Products/Images/42/282903/xiaomi-13-pro-thumb-1-2-600x600.jpg'
+where Product_ID = 6;
+
+
+update Product
+set Product_Image = 'https://cdn.tgdd.vn/Products/Images/42/305695/oppo-reno10-blue-thumbnew-600x600.jpg'
+where Product_ID = 7;
+
+
+update Product
+set Product_Image = 'https://cdn.tgdd.vn/Products/Images/42/297024/vivo-v27-thumb-600x600.jpg'
+where Product_ID = 8;
+
+
+update Product
+set Product_Image = 'https://dlcdnwebimgs.asus.com/gain/4A2BCCC6-B9D8-47A5-AD7F-501E30A462A9'
+where Product_ID = 9;
+
+
+update Product
+set Product_Image = 'https://cdn.tgdd.vn/Products/Images/42/269371/xiaomi-black-shark-5-pro-1-600x600.jpg'
+where Product_ID = 10;
+
+update Product
+set Product_Image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9rg0I2DWJcqSSZOQz4eouP6c7GWxXBgecEw&s'
+where Product_ID = 11;
+
+
+update Product
+set Product_Image = 'https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111848_apple-watch-series8.png'
+where Product_ID = 12;
+
+
+update Product
+set Product_Image = 'https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-pro-2-hero-select-202409_FMT_WHH?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1724041668836'
+where Product_ID = 13;
+
+
+update Product
+set Product_Image = 'https://samcenter.vn/images/thumbs/0001518_galaxy-buds-2-pro.jpeg'
+where Product_ID = 14;
 select * from Users
 
 select * from Role
@@ -255,3 +314,4 @@ set Category_Image = 'fa-gamepad'
 where Category_ID = 4;
 
 select * from Category
+
