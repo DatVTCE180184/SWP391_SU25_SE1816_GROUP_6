@@ -3,13 +3,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="model.User"%>
 <%
-   User acc = (User) session.getAttribute("user");
+//   User acc = (User) session.getAttribute("user");
+//   
+//    User user = (User) session.getAttribute("user");
+//    if (user == null) {
+//        user = new User();
+//    }
+//    session.setAttribute("user", user);
+//    
+//    if (user.getRole_ID() == 3) {
+//      session.setAttribute("redirectAfterLogin", "profile");
+//        response.sendRedirect("signin?action=signin");
+//        return;
+//    }
+//    
+    User acc = (User) session.getAttribute("user");
     if (acc == null) {
-      session.setAttribute("redirectAfterLogin", "profile");
+        session.setAttribute("redirectAfterLogin", "profile");
         response.sendRedirect("signin?action=signin");
         return;
     }
-    
 
 
 %>
@@ -21,6 +34,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
         <!-- FontAwesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
+        <link rel="stylesheet" href="./style/style.css" />
+
         <style>
             :root {
                 --main-bg: #f8fafc;
@@ -166,7 +182,7 @@
                     <a href="#"><i class="fas fa-history"></i> Purchase History</a>
                     <a href="#" class="active"><i class="fas fa-user"></i> Personal Information</a>
                     <a href="#"><i class="fas fa-star"></i> Manage Reviews</a>
-                    <a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="signin?action=logout" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
             <div class="main-content">
@@ -181,27 +197,33 @@
                     <div class="form-left">
                         <div class="form-group">
                             <label for="username">Full Name:</label>
-                            <input type="text" id="username" name="username" value="${sessionScope.user.username}" placeholder="Enter your full name">
+                            <input type="text" id="username" name="username" value="<%= acc.getUsername()%>" placeholder="Enter your full name">
                         </div>
                         <div class="form-group">
                             <label>Gender:</label>
                             <div class="gender-options">
-                                <label><input type="radio" name="gender" value="1" ${sessionScope.user.genderId == 1 ? 'checked' : ''}> Male</label>
-                                <label><input type="radio" name="gender" value="2" ${sessionScope.user.genderId == 2 ? 'checked' : ''}> Female</label>
-                                <label><input type="radio" name="gender" value="3" ${sessionScope.user.genderId == 3 ? 'checked' : ''}> Other</label>
+                                <label>
+                                    <input type="radio" name="gender" value="1" <%= acc.getGender() == 1 ? "checked" : ""%>> Male
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender" value="2" <%= acc.getGender() == 2 ? "checked" : ""%>> Female
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender" value="3" <%= acc.getGender() == 3 ? "checked" : ""%>> Other
+                                </label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone:</label>
-                            <input type="text" id="phone" name="phone" value="${sessionScope.user.phone}" placeholder="Enter your phone number">
+                            <input type="text" id="phone" name="phone" value="<%= acc.getPhone()%>" placeholder="Enter your phone number">
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" value="${sessionScope.user.email}" placeholder="Enter your email">
+                            <input type="email" id="email" name="email" value="<%= acc.getEmail()%>" placeholder="Enter your email">
                         </div>
                         <div class="form-group">
                             <label for="address">Address:</label>
-                            <input type="text" id="address" name="address" value="${sessionScope.user.address}" placeholder="Enter your address">
+                            <input type="text" id="address" name="address"  value="<%= acc.getAddress()%>" placeholder="Enter your address">
                         </div>
                         <hr>
                         <div class="form-group">

@@ -119,6 +119,9 @@ public class SignInController extends HttpServlet {
 
             if (user != null) {
                 // Đăng nhập thành công - set session attributes
+               if (session.getAttribute("user") != null){
+                    session.removeAttribute("user");
+               }
                 session.setAttribute("user", user);
                 session.setAttribute("username", user.getUsername());
                 session.setAttribute("userId", user.getID());

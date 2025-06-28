@@ -137,7 +137,7 @@
                     <a href="ForgetPassword" class="forget-password">Forget Password?</a>
                 </form>
 
-                <p class="signUp-link">Don't have an account? <a href="SignUp">Sign Up</a></p>
+                <p class="signUp-link">Don't have an account? <a href="signup">Sign Up</a></p>
 
                 <!-- Notification -->
                 <div class="mt-3">

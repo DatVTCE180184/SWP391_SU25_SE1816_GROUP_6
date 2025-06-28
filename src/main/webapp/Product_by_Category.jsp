@@ -16,6 +16,7 @@
 </head>
 <body>
     <%@include file="Header.jsp" %>
+    
     <div class="container my-5">
         <h2 class="mb-4 text-center"><%= categoryName != null ? categoryName : "Smartphones" %></h2>
         <% if (list_Product_by_Category == null || list_Product_by_Category.isEmpty()) { %>
