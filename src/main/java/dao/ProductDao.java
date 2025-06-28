@@ -104,36 +104,70 @@ public class ProductDao extends DBContext {
     }
 
     public List<Product> searchProductByKeyword(String keyword) {
-    List<Product> searchResults = new ArrayList<>();
-    String sql = "SELECT * FROM Product WHERE Product_Name LIKE ? OR Product_Description LIKE ?";
-    try {
-        PreparedStatement ps = conn.prepareStatement(sql);
-        String searchPattern = "%" + keyword + "%";
-        ps.setString(1, searchPattern);
-        ps.setString(2, searchPattern);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Product product = new Product(
-                rs.getInt("Product_ID"),
-                rs.getInt("Category_ID"),
-                rs.getString("Product_Name"),
-                rs.getString("Product_Description"),
-                rs.getString("Product_Image"),
-                rs.getDouble("Product_Price"),
-                rs.getInt("Product_Quantity"),
-                rs.getInt("Product_Status")
-            );
-            searchResults.add(product);
+        List<Product> searchResults = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE Product_Name LIKE ? OR Product_Description LIKE ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            String searchPattern = "%" + keyword + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("Product_ID"),
+                        rs.getInt("Category_ID"),
+                        rs.getString("Product_Name"),
+                        rs.getString("Product_Description"),
+                        rs.getString("Product_Image"),
+                        rs.getDouble("Product_Price"),
+                        rs.getInt("Product_Quantity"),
+                        rs.getInt("Product_Status")
+                );
+                searchResults.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error");
         }
-    } catch (SQLException e) {
-        System.out.println("Error");
+        return searchResults;
     }
-    return searchResults;
+
+    public List<Product> searchProductByCateghoryName(String keyword) {
+        List<Product> searchResults = new ArrayList<>();
+        String sql = "SELECT \n"
+                + "	p.Product_ID, c.Category_ID, p.Product_Name,\n"
+                + "	p.Product_Description, p.Product_Image, p.Product_Price, \n"
+                + "	p.Product_Quantity, p.Product_Status\n"
+                + "From Product p\n"
+                + "JOIN Category c on c.Category_ID = p.Category_ID\n"
+                + "WHERE c.Category_Name = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            String searchPattern =  keyword ;
+            ps.setString(1, searchPattern);
+//            ps.setString(2, searchPattern);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("Product_ID"),
+                        rs.getInt("Category_ID"),
+                        rs.getString("Product_Name"),
+                        rs.getString("Product_Description"),
+                        rs.getString("Product_Image"),
+                        rs.getDouble("Product_Price"),
+                        rs.getInt("Product_Quantity"),
+                        rs.getInt("Product_Status")
+                );
+                searchResults.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error");
+        }
+        return searchResults;
     }
 
     public static void main(String[] args) {
         ProductDao dao = new ProductDao();
-        for (Product p : dao.searchProductByKeyword("iphone")) {
+        for (Product p : dao.searchProductByCateghoryName("Smartphones")) {
             System.out.println(p.toString());
         }
     }

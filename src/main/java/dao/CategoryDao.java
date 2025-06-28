@@ -35,9 +35,9 @@ public class CategoryDao extends DBContext {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Category cat = new Category(rs.getInt("Category_ID"), rs.getString("Category_Name"), 
-                                            rs.getString("Category_Description"), rs.getInt("Category_Parent_ID"),
-                                            rs.getString("Category_Image"), rs.getInt("Category_Status"));
+                Category cat = new Category(rs.getInt("Category_ID"), rs.getString("Category_Name"),
+                        rs.getString("Category_Description"), rs.getInt("Category_Parent_ID"),
+                        rs.getString("Category_Image"), rs.getInt("Category_Status"));
                 listCat.add(cat);
             }
 
@@ -46,13 +46,35 @@ public class CategoryDao extends DBContext {
         }
         return listCat;
     }
-    
+
+    public Category getCategoryByID(String ID) {
+
+        String sql = "select * from Category c where c.Category_ID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+             ps.setString(1, ID);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                Category cat = new Category(rs.getInt("Category_ID"), rs.getString("Category_Name"),
+                        rs.getString("Category_Description"), rs.getInt("Category_Parent_ID"),
+                        rs.getString("Category_Image"), rs.getInt("Category_Status"));
+                return cat;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error");
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         CategoryDao dao = new CategoryDao();
+        System.out.println(dao.getCategoryByID("1").getCat_Name());
         for (Category cat : dao.getAllCategory()) {
             System.out.println(cat.toString());
         }
-        
-        
+
     }
 }

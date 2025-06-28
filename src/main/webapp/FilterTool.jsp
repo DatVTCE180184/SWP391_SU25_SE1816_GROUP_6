@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-   <form class="row g-3 align-items-end mb-4" method="get" action="search">
+   <form class="row g-3 align-items-end mb-4" method="post" action="search">
             <input type="hidden" name="keyword" value="<%= request.getAttribute("keyword") %>" />
             <div class="col-md-3">
                 <label class="form-label">Khoảng giá</label>

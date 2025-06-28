@@ -79,6 +79,7 @@ public class ProductController extends HttpServlet {
             request.getRequestDispatcher("home").forward(request, response);
             return;
         } else if (action.equals("list") && CatID != null) {
+            request.setAttribute("keyword", catDao.getCategoryByID(CatID).getCat_Name());
             request.setAttribute("list_Product_by_Category", proDao.getProductByCategory(CatID));
             request.getRequestDispatcher("Product_by_Category.jsp").forward(request, response);
             return;

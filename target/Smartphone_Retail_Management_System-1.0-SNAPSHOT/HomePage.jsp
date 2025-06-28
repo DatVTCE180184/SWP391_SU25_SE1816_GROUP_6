@@ -124,7 +124,8 @@
 <!--                        <span><%= cat.getCat_Name()%></span>-->
                         
                         <a href="product?action=list&cat_ID=<%= cat.getCat_ID()%>" > 
-                             <i class="fa-solid <%= cat.getCat_img() %> me-2 fs-5"></i>   <%= cat.getCat_Name()%>  </a>
+                             <i class="fa-solid <%= cat.getCat_img() %> me-2 fs-5"></i>   <%= cat.getCat_Name()%>  
+                        </a>
                     </li>
                     <%
                         }
