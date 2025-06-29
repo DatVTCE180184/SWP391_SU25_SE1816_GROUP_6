@@ -19,7 +19,7 @@
 
                     <!-- Thanh tìm kiếm -->
                     <div class="flex-grow-1 px-4">
-                        <form action="search" method="post" class="input-group">
+                        <form action="search" method="get" class="input-group">
                             <input
                                 type="text"
                                 name="keyword"

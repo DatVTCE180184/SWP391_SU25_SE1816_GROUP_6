@@ -13,7 +13,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Category;
+import model.User;
 
 /**
  *
@@ -60,6 +62,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String action = (String) request.getAttribute("action");
         if (action == null) {
             action = "list";
@@ -74,6 +77,11 @@ public class HomeController extends HttpServlet {
 //
 //        request.setAttribute("list_Product", proDao.getAllProduct());
 //        request.setAttribute("list_Category", catDao.getAllCategory());
+
+        User acc = (User) session.getAttribute("user");
+    if (acc == null) {
+        acc = new User();
+    }
 
         request.getRequestDispatcher("HomePage.jsp").forward(request, response);
 

@@ -93,7 +93,7 @@ public class CartController extends HttpServlet {
         if (cart == null) {
             cart = new ArrayList<>();
         }
-
+        
         String action = request.getParameter("action");
         int id = Integer.parseInt(request.getParameter("id"));
 

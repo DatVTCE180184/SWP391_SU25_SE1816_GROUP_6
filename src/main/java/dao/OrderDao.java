@@ -4,10 +4,32 @@
  */
 package dao;
 
+import java.util.List;
+import model.CartItem;
+import model.User;
+import utils.DBContext;
+
 /**
  *
  * @author ADMIN
  */
-public class OrderDao {
+public class OrderDao extends DBContext {
+
+    public OrderDao() {
+        super();
+    }
     
+    public void createOrder(List<CartItem> cart, String userID, String fullName, 
+            String phone, String note, String Payment_Method, String address){
+        
+        
+        
+    }
+    
+    
+
+    public static void main(String[] args) {
+        OrderDao orDao = new OrderDao();
+        
+    }
 }

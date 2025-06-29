@@ -19,6 +19,12 @@ public class Product {
     private double Pro_Price;
     private int Pro_Quantity;
     private boolean Pro_Status;
+      
+    // Thêm các trường mới cho màu sắc và thông số kỹ thuật
+    private String Pro_Colors;
+    private String Pro_Specs;
+    // chi tiết sản phẩm 
+    private String Pro_Detail_Image;
 
     public Product() {
         this.Pro_ID = -1;
@@ -29,6 +35,10 @@ public class Product {
         this.Pro_Price = 0.0;
         this.Pro_Quantity = 0;
         this.Pro_Status = false;
+        this.Pro_Colors = "";
+        this.Pro_Specs = "";
+        // chi tiết sản phẩm 
+        this.Pro_Detail_Image = "";
     }
 
     public Product(int Pro_ID, int Cat_ID, String Pro_Name, String Pro_Description, String Pro_Image, double Pro_Price, int Pro_Quantity, int Pro_Status) {
@@ -40,7 +50,26 @@ public class Product {
         this.Pro_Price = Pro_Price;
         this.Pro_Quantity = Pro_Quantity;
         this.Pro_Status = (Pro_Status == 1);
-//      this.Pro_Status = Pro_Status;
+        this.Pro_Colors = "";
+        this.Pro_Specs = "";
+        // chi tiết sản phẩm 
+        this.Pro_Detail_Image = "";
+    }
+
+    // Constructor mới với đầy đủ thông tin
+    public Product(int Pro_ID, int Cat_ID, String Pro_Name, String Pro_Description, String Pro_Image, double Pro_Price, int Pro_Quantity, int Pro_Status, String Pro_Colors, String Pro_Specs, String Pro_Detail_Image) {
+        this.Pro_ID = Pro_ID;
+        this.Cat_ID = Cat_ID;
+        this.Pro_Name = Pro_Name;
+        this.Pro_Description = Pro_Description;
+        this.Pro_Image = Pro_Image;
+        this.Pro_Price = Pro_Price;
+        this.Pro_Quantity = Pro_Quantity;
+        this.Pro_Status = (Pro_Status == 1);
+        this.Pro_Colors = Pro_Colors != null ? Pro_Colors : "";
+        this.Pro_Specs = Pro_Specs != null ? Pro_Specs : "";
+        // chi tiết sản phẩm
+        this.Pro_Detail_Image = Pro_Detail_Image != null ? Pro_Detail_Image : "";
     }
 
     public int getPro_ID() {
@@ -107,9 +136,35 @@ public class Product {
         this.Pro_Status = Pro_Status;
     }
 
+    // Thêm getter và setter cho màu sắc
+    public String getPro_Colors() {
+        return Pro_Colors;
+    }
+
+    public void setPro_Colors(String Pro_Colors) {
+        this.Pro_Colors = Pro_Colors;
+    }
+
+    // Thêm getter và setter cho thông số kỹ thuật
+    public String getPro_Specs() {
+        return Pro_Specs;
+    }
+
+    public void setPro_Specs(String Pro_Specs) {
+        this.Pro_Specs = Pro_Specs;
+    }
+// chi tiết sản phẩm 
+    public String getPro_Detail_Image() {
+        return Pro_Detail_Image;
+    }
+
+    public void setPro_Detail_Image(String Pro_Detail_Image) {
+        this.Pro_Detail_Image = Pro_Detail_Image;
+    }
+// chi tiết sản phẩm 
     @Override
     public String toString() {
-        return "Product{" + "Pro_ID=" + Pro_ID + ", Cat_ID=" + Cat_ID + ", Pro_Name=" + Pro_Name + ", Pro_Description=" + Pro_Description + ", Pro_Image=" + Pro_Image + ", Pro_Price=" + Pro_Price + ", Pro_Quantity=" + Pro_Quantity + ", Pro_Status=" + Pro_Status + '}';
+        return "Product{" + "Pro_ID=" + Pro_ID + ", Cat_ID=" + Cat_ID + ", Pro_Name=" + Pro_Name + ", Pro_Description=" + Pro_Description + ", Pro_Image=" + Pro_Image + ", Pro_Price=" + Pro_Price + ", Pro_Quantity=" + Pro_Quantity + ", Pro_Status=" + Pro_Status + ", Pro_Colors=" + Pro_Colors + ", Pro_Specs=" + Pro_Specs + ", Pro_Detail_Image=" + Pro_Detail_Image + '}';
     }
     
     

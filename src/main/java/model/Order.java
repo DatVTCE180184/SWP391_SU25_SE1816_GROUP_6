@@ -14,6 +14,7 @@ public class Order {
     
     private String Order_Date;
     private String Shipping_Address;
+    private String Order_FullName;
     private String Order_Phone;
     private String Note;
     
@@ -26,6 +27,7 @@ public class Order {
         this.User_ID = -1;
         this.Order_Date = "";
         this.Shipping_Address = "";
+        this.Order_FullName = "";
         this.Order_Phone = "";
         this.Note = "";
         this.Total_Amout = 0.0;
@@ -33,11 +35,12 @@ public class Order {
         this.Order_Status = "";
     }
 
-    public Order(int Order_ID, int User_ID, String Order_Date, String Shipping_Address, String Order_Phone, String Note, double Total_Amout, String Payment_Method, String Order_Status) {
+    public Order(int Order_ID, int User_ID, String Order_Date, String Shipping_Address, String Order_FullName, String Order_Phone, String Note, double Total_Amout, String Payment_Method, String Order_Status) {
         this.Order_ID = Order_ID;
         this.User_ID = User_ID;
         this.Order_Date = Order_Date;
         this.Shipping_Address = Shipping_Address;
+        this.Order_FullName = Order_FullName;
         this.Order_Phone = Order_Phone;
         this.Note = Note;
         this.Total_Amout = Total_Amout;
@@ -117,12 +120,19 @@ public class Order {
         this.Order_Status = Order_Status;
     }
 
+    public String getOrder_FullName() {
+        return Order_FullName;
+    }
+
+    public void setOrder_FullName(String Order_FullName) {
+        this.Order_FullName = Order_FullName;
+    }
+
     @Override
     public String toString() {
-        return "Order{" + "Order_ID=" + Order_ID + ", User_ID=" + User_ID + ", Order_Date=" + Order_Date + ", Shipping_Address=" + Shipping_Address + ", Order_Phone=" + Order_Phone + ", Note=" + Note + ", Total_Amout=" + Total_Amout + ", Payment_Method=" + Payment_Method + ", Order_Status=" + Order_Status + '}';
+        return "Order{" + "Order_ID=" + Order_ID + ", User_ID=" + User_ID + ", Order_Date=" + Order_Date + ", Shipping_Address=" + Shipping_Address + ", Order_FullName=" + Order_FullName + ", Order_Phone=" + Order_Phone + ", Note=" + Note + ", Total_Amout=" + Total_Amout + ", Payment_Method=" + Payment_Method + ", Order_Status=" + Order_Status + '}';
     }
-    
-    
+
     
     
 }

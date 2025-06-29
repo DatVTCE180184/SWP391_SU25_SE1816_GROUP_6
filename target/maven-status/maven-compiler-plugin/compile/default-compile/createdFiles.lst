@@ -12,6 +12,7 @@ controller\SignInController.class
 dao\OrderDao.class
 controller\SearchingController$5.class
 model\Product.class
+controller\OrderController.class
 controller\SearchingController$7.class
 dao\CategoryDao.class
 model\User.class

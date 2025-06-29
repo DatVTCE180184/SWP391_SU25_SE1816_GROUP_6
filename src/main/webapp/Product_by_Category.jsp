@@ -18,11 +18,12 @@
     <%@include file="Header.jsp" %>
         <div class="container my-5">
         <h2 class="mb-4 text-center">
-            <i class="fa fa-search text-primary"></i> Kết quả cho từ khóa: <span class="text-success">"<%=  request.getAttribute("keyword") %>"</span>
+            <i class="fa fa-search text-primary"></i> Kết quả cho từ khóa: <span class="text-success">"<%=  categoryName %>"</span>
         </h2>
         <!-- Bộ lọc tìm kiếm + Sắp xếp -->
         <form class="row g-3 align-items-end mb-4" method="post" action="search">
-            <input type="hidden" name="keyword" value="<%=  request.getAttribute("keyword") %>" />
+            <input type="hidden" name="keyword" value="<%= categoryName  %>" />
+            
             <div class="col-md-3">
                 <label class="form-label">Khoảng giá</label>
                 <select class="form-select" name="price">
