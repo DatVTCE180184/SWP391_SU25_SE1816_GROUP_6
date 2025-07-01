@@ -666,7 +666,7 @@ where Product_ID = 3
 select *
 from Orders
 
-select * from Product
+select * from Category
 
 
 ALTER TABLE Orders
@@ -674,5 +674,8 @@ ADD Order_FullName VARCHAR(100);
 
 update Orders
 set Order_FullName = 'User 01'
-where Order_ID = 1
+where Order_ID
 
+INSERT INTO Orders (User_ID, Shipping_Address, Order_Phone, Note, Total_Amount, Payment_Method, Status)
+VALUES 
+(3, '789 User Road', '0111222333', 'Please deliver quickly', 1029.98, 'COD', 'Processing');

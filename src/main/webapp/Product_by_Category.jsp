@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     
-    List<Product> list_Product_by_Category = (List<Product>) request.getAttribute("list_Product_by_Category");
+    List<Product> list_Product_by_Category = (List<Product>) request.getAttribute("products");
     String categoryName = (String) request.getAttribute("keyword");
 %>
 <!DOCTYPE html>
@@ -13,6 +13,8 @@
     <title><%= categoryName != null ? categoryName : "Smartphones" %></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
     <%@include file="Header.jsp" %>
@@ -23,6 +25,7 @@
         <!-- Bộ lọc tìm kiếm + Sắp xếp -->
         <form class="row g-3 align-items-end mb-4" method="post" action="search">
             <input type="hidden" name="keyword" value="<%= categoryName  %>" />
+            <input type="hidden" name="from" value="Product_by_Category" />
             
             <div class="col-md-3">
                 <label class="form-label">Khoảng giá</label>

@@ -94,13 +94,21 @@ public class OrderController extends HttpServlet {
          OrderDao orDao = new OrderDao();
          // Cod
          if (Payment_Method.equals("home")){
-              String province = request.getParameter("province").trim();
-              String district = request.getParameter("district").trim();
-              String ward = request.getParameter("ward").trim();
+              String province = request.getParameter("provinceName").trim();
+              String district = request.getParameter("districtName").trim();
+              String ward = request.getParameter("wardName").trim();
               String street = request.getParameter("street").trim();
               String address = street + ", " + ward + ", " + district + ", " + province;
               
-              orDao.createOrder(cart, userID, fullName, phone, note, Payment_Method, address);
+              int newOrder = orDao.createOrder(cart, userID, fullName, phone, note, Payment_Method, address);
+              
+              if (newOrder == 1) {
+                  request.setAttribute("OrderCompletedOrNot", "completed");
+                  request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
+              } else {
+                    request.setAttribute("OrderCompletedOrNot", "failed");
+                  request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
+              }
              
          } else if (Payment_Method.equals("store")) {
              

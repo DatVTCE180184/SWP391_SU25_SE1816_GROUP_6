@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     Product product = (Product) request.getAttribute("product");
-    
+     session.setAttribute("redirectAfterLogin", "product?action=details&id=" + product.getPro_ID());
 %>
 <!DOCTYPE html>
 <html>
@@ -11,6 +11,8 @@
     <title><%= product != null ? product.getPro_Name() : "Product Detail" %></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);

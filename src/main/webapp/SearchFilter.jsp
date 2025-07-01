@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    List<Product> list_Search = (List<Product>) request.getAttribute("list_Search");
+    List<Product> list_Search = (List<Product>) request.getAttribute("products");
     String keyword = (String) request.getAttribute("keyword");
 %>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@
             <i class="fa fa-search text-primary"></i> Kết quả cho từ khóa: <span class="text-success">"<%= keyword %>"</span>
         </h2>
         <!-- Bộ lọc tìm kiếm + Sắp xếp -->
-        <form class="row g-3 align-items-end mb-4" method="get" action="search">
+        <form class="row g-3 align-items-end mb-4" method="post" action="search">
             <input type="hidden" name="keyword" value="<%= keyword %>" />
             <div class="col-md-3">
                 <label class="form-label">Khoảng giá</label>

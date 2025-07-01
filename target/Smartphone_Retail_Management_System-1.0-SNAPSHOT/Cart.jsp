@@ -19,10 +19,18 @@
         <title>Giỏ hàng và đặt hàng</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     </head>
     <body class="bg-light">
 
         <div class="container py-5">
+            <div class="container py-3">
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                    ← Quay lại trang trước
+                </a>
+            </div>
+
             <div class="row g-4">
 
                 <!-- Cột 1: Giỏ hàng -->
@@ -96,15 +104,15 @@
                         </div>
                         <div class="card-body">
                             <form action="order" method="post">
-                                <input type="hidden" name="cart" value="<%= cart %>">
-                                <input type="hidden" name="user" value="<%= acc %>">
+                                <input type="hidden" name="cart" value="<%= cart%>">
+                                <input type="hidden" name="user" value="<%= acc%>">
                                 <input type="hidden" name="userId" value="<%= acc != null ? acc.getID() : ""%>">
 
                                 <div class="mb-3">
                                     <label class="form-label">Họ và tên:</label>
                                     <input type="text" name="fullname" class="form-control" required value="<%= acc != null ? acc.getUsername() : ""%>">
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label class="form-label">Số điện thoại:</label>
                                     <input type="tel" name="phone" class="form-control" required value="<%= acc != null ? acc.getPhone() : ""%>">
@@ -134,6 +142,7 @@
                                         <select id="provinces" class="form-control" name="province" onchange="getProvinces(event)" required>
                                             <option value="">-- Select province --</option>
                                         </select>
+                                        <input type="hidden" name="provinceName" id="provinceName">
                                     </div>
 
                                     <div class="mb-3">
@@ -142,12 +151,14 @@
                                         <select id="districts" class="form-control" name="district" onchange="getDistricts(event)" required>
                                             <option value="">-- Select district--</option>
                                         </select>
+                                        <input type="hidden" name="districtName" id="districtName">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Phường / xã:</label>
                                         <select id="wards" class="form-control" name="ward" required>
                                             <option value="">-- Select ward --</option>
                                         </select>
+                                        <input type="hidden" name="wardName" id="wardName">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Đường / Số nhà:</label>
@@ -183,6 +194,26 @@
 
             // Gọi lần đầu khi load trang
             window.addEventListener('DOMContentLoaded', toggleAddressFields);
+
+            document.querySelector("form").addEventListener("submit", function (e) {
+                const province = document.getElementById("provinces");
+                const district = document.getElementById("districts");
+                const ward = document.getElementById("wards");
+
+                const provinceName = province.options[province.selectedIndex].text;
+                const districtName = district.options[district.selectedIndex].text;
+                const wardName = ward.options[ward.selectedIndex].text;
+
+                document.getElementById("provinceName").value = provinceName;
+                document.getElementById("districtName").value = districtName;
+                document.getElementById("wardName").value = wardName;
+            });
+
+            function removeVietnameseTones(str) {
+                str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                str = str.replace(/đ/g, "d").replace(/Đ/g, "D");
+                return str;
+            }
         </script>
 
         <script src="LocationJS.js"></script>

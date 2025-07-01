@@ -123,7 +123,7 @@
                       
 <!--                        <span><%= cat.getCat_Name()%></span>-->
                         
-                        <a href="product?action=list&cat_ID=<%= cat.getCat_ID()%>" > 
+                        <a style="text-decoration: none; font-family: 'Poppins'; color: #333" href="search?from=Product_by_Category&keyword=<%= cat.getCat_Name() %>" > 
                              <i class="fa-solid <%= cat.getCat_img() %> me-2 fs-5"></i>   <%= cat.getCat_Name()%>  
                         </a>
                     </li>
