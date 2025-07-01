@@ -42,7 +42,7 @@ public class User {
         this.address = address;
         this.gender = gender;
         this.avatar = avatar;
-        this.role_ID = -1;
+        this.role_ID = role_ID;
     }
 
     public int getID() {
@@ -122,6 +122,4 @@ public class User {
         return "User{" + "ID=" + ID + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", gender=" + gender + ", avatar=" + avatar + ", role_ID=" + role_ID + '}';
     }
     
-    
-
 }

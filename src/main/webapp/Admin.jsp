@@ -36,7 +36,7 @@
             /* Sidebar styling */
             .sidebar {
                 width: 250px;
-                background-color: white; 
+                background-color: white;
                 overflow-y: auto;
                 padding: 20px 15px;
             }
@@ -132,9 +132,9 @@
                             <p>Manage payments here.</p>
                         </c:when>
                         <c:when test="${section == 'User Management (Users)'}">
-                            <h2>User Management</h2>
-                            <p>Manage users here.</p>
+                            <jsp:include page="User.jsp" />
                         </c:when>
+
                         <c:when test="${section == 'Customer Feedback (Feedbacks)'}">
                             <h2>Customer Feedback</h2>
                             <p>View feedbacks here.</p>
@@ -145,3 +145,4 @@
         </div>
     </body>
 </html>
+s

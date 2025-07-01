@@ -202,7 +202,7 @@
         </div>
 
         <div class="checkout-container">
-            <form action="checkout.jsp" method="post">
+            <form action="CheckOut.jsp" method="post">
                 <button type="submit" class="checkout-btn">Check Out</button>
             </form>
         </div>
@@ -212,3 +212,4 @@
 
 </body>
 </html>
+ 

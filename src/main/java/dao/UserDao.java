@@ -138,6 +138,20 @@ public class UserDao extends DBContext {
         }
         return false;
     }
+    public boolean updateUserRole(int userId, int newRoleId) {
+    String sql = "UPDATE Users SET Role_ID = ? WHERE User_ID = ?";
+    try {
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, newRoleId);
+        ps.setInt(2, userId);
+        int result = ps.executeUpdate();
+        return result > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
     
         public boolean register(User user) {
         System.out.println("Starting registration for user: " + user.getUsername());

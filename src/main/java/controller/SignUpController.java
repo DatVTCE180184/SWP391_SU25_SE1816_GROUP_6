@@ -73,7 +73,7 @@ public class SignUpController extends HttpServlet {
     throws ServletException, IOException {
              String action = request.getParameter("action");
         if (action == null || !action.equalsIgnoreCase("Signup")) {
-            response.sendRedirect("Signup.jsp");
+            response.sendRedirect("SignUp.jsp");
             return;
         }
 
@@ -107,13 +107,13 @@ public class SignUpController extends HttpServlet {
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
                 email.isEmpty() || phone.isEmpty() || address.isEmpty() || gender == null || gender.isEmpty()) {
             session.setAttribute("error", "All fields are required!");
-            request.getRequestDispatcher("Signup.jsp").forward(request, response);
+            request.getRequestDispatcher("SignUp.jsp").forward(request, response);
             return;
         }
 
         if (!password.equals(confirmPassword)) {
             session.setAttribute("error", "Passwords do not match!");
-            request.getRequestDispatcher("Signup.jsp").forward(request, response);
+            request.getRequestDispatcher("SignUp.jsp").forward(request, response);
             return;
         }
 
@@ -136,7 +136,7 @@ public class SignUpController extends HttpServlet {
 
             if (isRegistered) {
                 session.setAttribute("success", "Account registered successfully! Please login.");
-                response.sendRedirect("Lognin.jsp");
+                response.sendRedirect("SignSn.jsp");
             } else {
                 session.setAttribute("error", "Registration failed! Username, Email, or Phone may already exist.");
                 request.getRequestDispatcher("SignUp.jsp").forward(request, response);
