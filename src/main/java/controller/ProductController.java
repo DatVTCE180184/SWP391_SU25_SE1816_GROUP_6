@@ -61,9 +61,65 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String action = request.getParameter("action");
+        String action = request.getParameter("action");
         String CatID = request.getParameter("cat_ID");
 
+        
+        // --- BẮT ĐẦU: Xử lý cho admin quản lý sản phẩm ---
+        String section = request.getParameter("section");
+        request.setAttribute("section", section);
+        jakarta.servlet.http.HttpSession session = request.getSession(false);
+        model.User user = (session != null) ? (model.User) session.getAttribute("user") : null;
+        if (action != null && (action.equals("admin") || action.equals("addForm") || action.equals("editForm") || action.equals("delete") || action.equals("toggleStatus"))) {
+            if (user == null || user.getRole_ID() != 1) {
+                response.sendRedirect("SignIn.jsp");
+                return;
+            }
+            ProductDao proDao = new ProductDao();
+            CategoryDao catDao = new CategoryDao();
+            if ("admin".equals(action)) {
+                String keyword = request.getParameter("keyword");
+                String filterCatId = request.getParameter("cat_ID");
+                String filterStatus = request.getParameter("status");
+                if ((keyword != null && !keyword.isEmpty()) || (filterCatId != null && !filterCatId.isEmpty()) || (filterStatus != null && !filterStatus.isEmpty())) {
+                    request.setAttribute("list_Product", proDao.searchAndFilterProducts(keyword, filterCatId, filterStatus));
+                } else {
+                    request.setAttribute("list_Product", proDao.getAllProduct());
+                }
+                request.setAttribute("list_Category", catDao.getAllCategory());
+                request.getRequestDispatcher("Admin.jsp").forward(request, response);
+                return;
+            }
+            if ("addForm".equals(action)) {
+                request.setAttribute("list_Category", catDao.getAllCategory());
+                request.getRequestDispatcher("AddProduct.jsp").forward(request, response);
+                return;
+            }
+            if ("editForm".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                Product product = proDao.getProductById(id);
+                request.setAttribute("product", product);
+                request.setAttribute("list_Category", catDao.getAllCategory());
+                request.getRequestDispatcher("EditProduct.jsp").forward(request, response);
+                return;
+            }
+            if ("delete".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                proDao.deleteProduct(id);
+                response.sendRedirect("product?action=admin");
+                return;
+            }
+            if ("toggleStatus".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                proDao.updateProductStatus(id, !status);
+                response.sendRedirect("product?action=admin");
+                return;
+            }
+        }
+        // --- KẾT THÚC: Xử lý cho admin quản lý sản phẩm ---
+
+        
         if (action == null) {
             action = "list";
             request.setAttribute("action", action);
@@ -115,7 +171,51 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+              String action = request.getParameter("action");
+        jakarta.servlet.http.HttpSession session = request.getSession(false);
+        model.User user = (session != null) ? (model.User) session.getAttribute("user") : null;
+        if (action != null && (action.equals("add") || action.equals("edit"))) {
+            if (user == null || user.getRole_ID() != 1) {
+                response.sendRedirect("SignIn.jsp");
+                return;
+            }
+            ProductDao proDao = new ProductDao();
+            if ("add".equals(action)) {
+                int catId = Integer.parseInt(request.getParameter("cat_ID"));
+                String name = request.getParameter("pro_Name");
+                String desc = request.getParameter("pro_Description");
+                String img = request.getParameter("pro_Image");
+                double price = Double.parseDouble(request.getParameter("pro_Price"));
+                int quantity = Integer.parseInt(request.getParameter("pro_Quantity"));
+                boolean status = "1".equals(request.getParameter("pro_Status"));
+                String colors = request.getParameter("pro_Colors");
+                String specs = request.getParameter("pro_Specs");
+                String detailImg = request.getParameter("pro_Detail_Image");
+                Product p = new Product(-1, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, specs, detailImg, null);
+                proDao.addProduct(p);
+                response.sendRedirect("product?action=admin");
+                return;
+            }
+            if ("edit".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("pro_ID"));
+                int catId = Integer.parseInt(request.getParameter("cat_ID"));
+                String name = request.getParameter("pro_Name");
+                String desc = request.getParameter("pro_Description");
+                String img = request.getParameter("pro_Image");
+                double price = Double.parseDouble(request.getParameter("pro_Price"));
+                int quantity = Integer.parseInt(request.getParameter("pro_Quantity"));
+                boolean status = "1".equals(request.getParameter("pro_Status"));
+                String colors = request.getParameter("pro_Colors");
+                String specs = request.getParameter("pro_Specs");
+                String detailImg = request.getParameter("pro_Detail_Image");
+                Product p = new Product(id, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, specs, detailImg, null);
+                proDao.updateProduct(p);
+                response.sendRedirect("product?action=admin");
+                return;
+            }
+        } else {
+            processRequest(request, response);
+        }
     }
 
     /**

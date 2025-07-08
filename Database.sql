@@ -663,8 +663,7 @@ where Product_ID = 3
 
 
 
-select *
-from Orders
+f
 
 select * from Category
 
@@ -679,3 +678,40 @@ where Order_ID
 INSERT INTO Orders (User_ID, Shipping_Address, Order_Phone, Note, Total_Amount, Payment_Method, Status)
 VALUES 
 (3, '789 User Road', '0111222333', 'Please deliver quickly', 1029.98, 'COD', 'Processing');
+
+select * from Orders
+
+-- Tìm tên constraint
+SELECT name
+FROM sys.check_constraints
+WHERE parent_object_id = OBJECT_ID('Orders') AND definition LIKE '%Payment_Method%';
+
+-- Sau đó xóa constraint đó:
+ALTER TABLE Orders DROP CONSTRAINT CK__Orders__Payment___628FA481;
+-- Rồi mới DROP COLUMN
+ALTER TABLE Orders DROP COLUMN Payment_Method;
+
+ALTER TABLE Orders
+ADD CONSTRAINT CK_Orders_PaymentMethod
+CHECK (Payment_Method IN ('COD', 'InStore'));
+
+DELETE FROM Orders
+WHERE Order_ID = 2;
+
+DELETE FROM Order_Detail
+WHERE Order_ID = 2;
+
+select * from Order_Detail
+
+select * from Orders
+
+select * from Product
+
+DBCC CHECKIDENT ('Orders', RESEED, 1);
+DBCC CHECKIDENT ('Order_Detail', RESEED, 2);
+
+Select max(Order_ID) from Orders
+Select max(Order_Detail_ID) from Order_Detail
+
+select * from Users
+

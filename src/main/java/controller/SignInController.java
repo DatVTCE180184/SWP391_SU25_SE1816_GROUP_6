@@ -146,7 +146,7 @@ public class SignInController extends HttpServlet {
                 // Redirect based on user role
                 int role = user.getRole_ID();
                 if (role == 1) { // Admin
-                    response.sendRedirect("Admin.jsp");
+                    response.sendRedirect("admin");
                 } else if (role == 2) { // Staff
                     response.sendRedirect("home_staff.jsp");
                 } else if (role == 3) { // Customer

@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="model.User"%>
 <%@ page import="java.util.*, model.CartItem" %>
 <%@ page session="true" %>
@@ -11,6 +12,7 @@
     }
     ArrayList<CartItem> cart = (ArrayList<CartItem>) session.getAttribute("cart");
     double total = 0;
+     DecimalFormat df = new DecimalFormat("#,##0.00");
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -26,7 +28,7 @@
 
         <div class="container py-5">
             <div class="container py-3">
-                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                <a href="home" class="btn btn-outline-secondary">
                     ← Quay lại trang trước
                 </a>
             </div>
@@ -62,7 +64,7 @@
                                     <tr>
                                         <td><img src="<%= item.getImage()%>" width="70" class="rounded"></td>
                                         <td><%= item.getName()%></td>
-                                        <td><%= String.format("%,.0f", item.getPrice())%> ₫</td>
+                                        <td><%= df.format(item.getPrice())%> $</td>
                                         <td>
                                             <form action="cart" method="post" class="d-inline">
                                                 <input type="hidden" name="action" value="decrease">
@@ -76,7 +78,7 @@
                                                 <button class="btn btn-sm btn-outline-warning">+</button>
                                             </form>
                                         </td>
-                                        <td><%= String.format("%,.0f", itemTotal)%> ₫</td>
+                                        <td><%= df.format(itemTotal)%> $</td>
                                         <td>
                                             <form action="cart" method="post">
                                                 <input type="hidden" name="action" value="remove">
@@ -89,7 +91,7 @@
                                 </tbody>
                             </table>
                             <div class="text-end fw-bold fs-5">
-                                Tổng tiền: <%= String.format("%,.0f", total)%> ₫
+                                Tổng tiền: <%= df.format(total)%> $
                             </div>
                             <% }%>
                         </div>
@@ -97,6 +99,7 @@
                 </div>
 
                 <!-- Cột 2: Form đặt hàng -->
+                <% if (cart != null && !cart.isEmpty()) {%>
                 <div class="col-lg-5">
                     <div class="card shadow-sm">
                         <div class="card-header bg-success text-white fw-bold fs-5">
@@ -104,8 +107,7 @@
                         </div>
                         <div class="card-body">
                             <form action="order" method="post">
-                                <input type="hidden" name="cart" value="<%= cart%>">
-                                <input type="hidden" name="user" value="<%= acc%>">
+
                                 <input type="hidden" name="userId" value="<%= acc != null ? acc.getID() : ""%>">
 
                                 <div class="mb-3">
@@ -126,11 +128,11 @@
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">Hình thức nhận hàng</label>
                                     <div class="btn-group w-100 mb-3" role="group">
-                                        <input type="radio" class="btn-check" name="Payment_Method" id="home" value="home">
-                                        <label class="btn btn-outline-secondary w-50" for="home">Nhận hàng tại nhà</label>
+                                        <input type="radio" class="btn-check" name="Payment_Method" id="cod" value="COD">
+                                        <label class="btn btn-outline-secondary w-50" for="cod">Nhận hàng tại nhà</label>
 
-                                        <input type="radio" class="btn-check" name="Payment_Method" id="store" value="store" checked>
-                                        <label class="btn btn-outline-success w-50" for="store">Nhận hàng tại cửa hàng</label>
+                                        <input type="radio" class="btn-check" name="Payment_Method" id="instore" value="InStore" checked>
+                                        <label class="btn btn-outline-success w-50" for="instore">Nhận hàng tại cửa hàng</label>
                                     </div>
                                 </div>
 
@@ -166,26 +168,34 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-success w-100 fw-bold py-2" 
-                                        onclick="alert('Tính năng đặt hàng đang được phát triển. Vui lòng quay lại sau!');">Xác nhận và đặt hàng</button>
+                                <button type="submit" class="btn btn-success w-100 fw-bold py-2" >Xác nhận và đặt hàng</button>
                             </form>
                         </div>
                     </div>
                 </div>
-
+                <% }%>
             </div>
         </div>
 
         <script>
-            const homeRadio = document.getElementById('home');
-            const storeRadio = document.getElementById('store');
+            const homeRadio = document.getElementById('cod');
+            const storeRadio = document.getElementById('instore');
             const addressFields = document.getElementById('homeAddressFields');
 
             function toggleAddressFields() {
                 if (homeRadio.checked) {
                     addressFields.classList.remove('d-none');
+
+                    // Bật required khi nhận tại nhà
+                    document.getElementById("provinces").setAttribute("required", "required");
+                    document.getElementById("districts").setAttribute("required", "required");
+                    document.getElementById("wards").setAttribute("required", "required");
                 } else {
                     addressFields.classList.add('d-none');
+                    // Tắt required khi nhận tại cửa hàng
+                    document.getElementById("provinces").removeAttribute("required");
+                    document.getElementById("districts").removeAttribute("required");
+                    document.getElementById("wards").removeAttribute("required");
                 }
             }
 
@@ -204,9 +214,9 @@
                 const districtName = district.options[district.selectedIndex].text;
                 const wardName = ward.options[ward.selectedIndex].text;
 
-                document.getElementById("provinceName").value = provinceName;
-                document.getElementById("districtName").value = districtName;
-                document.getElementById("wardName").value = wardName;
+                document.getElementById("provinceName").value = removeVietnameseTones(provinceName);
+                document.getElementById("districtName").value = removeVietnameseTones(districtName);
+                document.getElementById("wardName").value = removeVietnameseTones(wardName);
             });
 
             function removeVietnameseTones(str) {
