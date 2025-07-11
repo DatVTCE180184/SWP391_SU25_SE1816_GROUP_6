@@ -3,6 +3,7 @@ dao\ProductDao.class
 model\CartItem.class
 controller\HomeController.class
 controller\ForgetPasswordController.class
+controller\UserController.class
 controller\SearchingController$4.class
 dao\UserDao.class
 controller\SignUpController.class

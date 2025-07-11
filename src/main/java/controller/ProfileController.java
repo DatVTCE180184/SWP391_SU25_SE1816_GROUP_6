@@ -96,6 +96,8 @@ public class ProfileController extends HttpServlet {
 
         // Lấy thông tin từ form
         String username = request.getParameter("username");
+        String fullname = request.getParameter("fullname");
+        String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         int gender = Integer.parseInt(request.getParameter("gender"));
@@ -104,6 +106,8 @@ public class ProfileController extends HttpServlet {
 
         // Cập nhật thông tin vào đối tượng user
         user.setUsername(username);
+        user.setFullname(fullname);
+        user.setEmail(email);
         user.setPhone(phone);
         user.setAddress(address);
         user.setGender(gender);

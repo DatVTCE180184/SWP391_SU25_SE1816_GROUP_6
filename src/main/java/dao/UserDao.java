@@ -52,14 +52,15 @@ public class UserDao extends DBContext {
                 user.setID(rs.getInt("User_ID"));
                 user.setUsername(rs.getString("Username"));
                 user.setPassword(rs.getString("Password"));
+                user.setFullname(rs.getString("FullName"));
                 user.setEmail(rs.getString("Email"));
                 user.setPhone(rs.getString("Phone"));
                 user.setAddress(rs.getString("Address"));
                 user.setGender(rs.getInt("Gender_ID"));
                 user.setAvatar(rs.getString("Avatar"));
                 user.setRole_ID(rs.getInt("Role_ID"));
-//                user.setCreatedAt(rs.getString("Created_At"));
-//                user.setUpdatedAt(rs.getString("Updated_At"));
+                // user.setCreatedAt(rs.getString("Created_At"));
+                // user.setUpdatedAt(rs.getString("Updated_At"));
                 return user;
             }
         } catch (SQLException e) {
@@ -72,7 +73,7 @@ public class UserDao extends DBContext {
     public List<User> getAllUser() {
         List<User> listUser = new ArrayList<>();
         String sql = "SELECT	U.User_ID, U.Username, U.Password,\n"
-                + "		U.Email, U.Phone, U.Address,\n"
+                + "		U.FullName, U.Email, U.Phone, U.Address,\n"
                 + "		G.Gender_ID, U.Avatar,  R.Role_ID,\n"
                 + "		U.Created_At, U.Updated_At\n"
                 + "FROM Users U \n"
@@ -84,7 +85,7 @@ public class UserDao extends DBContext {
 
             while (rs.next()) {
                 User user = new User(rs.getInt("User_ID"), rs.getString("Username"),
-                        rs.getString("Password"), rs.getString("Email"),
+                        rs.getString("Password"), rs.getString("FullName"), rs.getString("Email"),
                         rs.getString("Phone"), rs.getString("Address"),
                         rs.getInt("Gender_ID"), rs.getString("Avatar"), rs.getInt("Role_ID"));
                 listUser.add(user);
@@ -107,14 +108,15 @@ public class UserDao extends DBContext {
                 user.setID(rs.getInt("User_ID"));
                 user.setUsername(rs.getString("Username"));
                 user.setPassword(rs.getString("Password"));
+                user.setFullname(rs.getString("FullName"));
                 user.setEmail(rs.getString("Email"));
                 user.setPhone(rs.getString("Phone"));
                 user.setAddress(rs.getString("Address"));
                 user.setGender(rs.getInt("Gender_ID"));
                 user.setAvatar(rs.getString("Avatar"));
                 user.setRole_ID(rs.getInt("Role_ID"));
-//                user.setCreatedAt(rs.getString("Created_At"));
-//                user.setUpdatedAt(rs.getString("Updated_At"));
+                // user.setCreatedAt(rs.getString("Created_At"));
+                // user.setUpdatedAt(rs.getString("Updated_At"));
                 return user;
             }
         } catch (SQLException e) {
@@ -148,19 +150,20 @@ public class UserDao extends DBContext {
             return false;
         }
 
-        String sql = "INSERT INTO Users (Username, Password, Email, Phone, Address, Gender_ID, Avatar, Role_ID) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (Username, Password, FullName, Email, Phone, Address, Gender_ID, Avatar, Role_ID) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user.getUsername());
             ps.setString(2, hashMD5(user.getPassword()));
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPhone());
-            ps.setString(5, user.getAddress());
-            ps.setInt(6, user.getGender());
-            ps.setString(7, user.getAvatar());
-            ps.setInt(8, user.getRole_ID()); // thường mặc định là 3 = Customer
+            ps.setString(3, user.getFullname());
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getPhone());
+            ps.setString(6, user.getAddress());
+            ps.setInt(7, user.getGender());
+            ps.setString(8, user.getAvatar());
+            ps.setInt(9, user.getRole_ID()); // thường mặc định là 3 = Customer
 
             int result = ps.executeUpdate();
             System.out.println("Registration result: " + result);
@@ -224,6 +227,16 @@ public class UserDao extends DBContext {
         return false;
     }
 
+    // Check if username exists (alias for isUsernameExist)
+    public boolean isUsernameExists(String username) {
+        return isUsernameExist(username);
+    }
+
+    // Check if email exists (alias for isEmailExist)
+    public boolean isEmailExists(String email) {
+        return isEmailExist(email);
+    }
+
     // Lấy thông tin user theo ID
     public User getUserById(int id) {
         String sql = "SELECT * FROM Users WHERE User_ID = ?";
@@ -237,14 +250,15 @@ public class UserDao extends DBContext {
                 user.setID(rs.getInt("User_ID"));
                 user.setUsername(rs.getString("Username"));
                 user.setPassword(rs.getString("Password"));
+                user.setFullname(rs.getString("FullName"));
                 user.setEmail(rs.getString("Email"));
                 user.setPhone(rs.getString("Phone"));
                 user.setAddress(rs.getString("Address"));
                 user.setGender(rs.getInt("Gender_ID"));
                 user.setAvatar(rs.getString("Avatar"));
                 user.setRole_ID(rs.getInt("Role_ID"));
-//                user.setCreatedAt(rs.getString("Created_At"));
-//                user.setUpdatedAt(rs.getString("Updated_At"));
+                // user.setCreatedAt(rs.getString("Created_At"));
+                // user.setUpdatedAt(rs.getString("Updated_At"));
                 return user;
             }
         } catch (SQLException e) {
@@ -254,32 +268,124 @@ public class UserDao extends DBContext {
     }
 
     public boolean updateUserProfile(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public void updatePasswordById(int id, String newPassword) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     /**
      * Update User Role to Staff or Admin
+     *
      * @param userId
      * @param newRoleId
-     * @return 
+     * @return
      */
-       public boolean updateUserRole(int userId, int newRoleId) {
-    String sql = "UPDATE Users SET Role_ID = ? WHERE User_ID = ?";
-    try {
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, newRoleId);
-        ps.setInt(2, userId);
-        int result = ps.executeUpdate();
-        return result > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
+    public boolean updateUserRole(int userId, int newRoleId) {
+        String sql = "UPDATE Users SET Role_ID = ? WHERE User_ID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, newRoleId);
+            ps.setInt(2, userId);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    return false;
-}
+
+    // ADMIN management
+    // Create new user
+    public boolean createUser(String username, String password, String fullname, String email,
+            String phone, String address, int gender, int role) {
+        String sql = "INSERT INTO Users (Username, Password, FullName, Email, Phone, Address, Gender_ID, Avatar, Role_ID) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, hashMD5(password));
+            ps.setString(3, fullname);
+            ps.setString(4, email);
+            ps.setString(5, phone);
+            ps.setString(6, address);
+            ps.setInt(7, gender);
+            ps.setString(8, ""); // Default empty avatar
+            ps.setInt(9, role);
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Create user SQL error: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Create user general error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    //     public int insertUser(String username, String password, String fullname, String email, String phone, String address,
+    //             int genderId, String avatar, int roleId) {
+    //         String sql = "INSERT INTO Users (Username, Password, FullName ,Email, Phone, Address, Gender_ID, Avatar, Role_ID) "
+    //                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    //         try {
+    //             PreparedStatement ps = conn.prepareStatement(sql);
+    //             ps.setString(1, username);
+    //             ps.setString(2, hashMD5(password));
+    //             ps.setString(3, fullname);
+    //             ps.setString(4, email);
+    //             ps.setString(5, phone);
+    //             ps.setString(6, address);
+    //             ps.setInt(7, genderId);
+    //             ps.setString(8, avatar);
+    //             ps.setInt(9, roleId);
+    //             int row = ps.executeUpdate();
+    //             return (row > 0) ? 1 : 0;
+    //         } catch (Exception e) {
+    //             System.out.println("Insert User Error: " + e.getMessage());
+    //             return 0;
+    //         }
+    //     }
+    public boolean deleteUser(int id) {
+        String sql = "DELETE FROM Users WHERE User_ID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            int num = ps.executeUpdate();
+            return num > 0;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean updateUser(int userId, String username, String fullname, String email, String phone, String address,
+            int gender, int role) {
+        String sql = "UPDATE Users SET Username = ?,  FullName = ?, Email = ?, Phone = ?, Address = ?, Gender_ID = ?, Role_ID = ? WHERE User_ID = ?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, fullname);
+            ps.setString(3, email);
+            ps.setString(4, phone);
+            ps.setString(5, address);
+            ps.setInt(6, gender);
+            ps.setInt(7, role);
+            ps.setInt(8, userId);
+
+            int num = ps.executeUpdate();
+            return num > 0; // Nếu cập nhật thành công, trả về true, ngược lại trả về false.
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         UserDao dao = new UserDao();

@@ -17,7 +17,7 @@
                 </a>
             </div>
 
-            <!-- Thanh tìm kiếm -->
+            <!-- Search Bar -->
             <div class="flex-grow-1 px-4">
                 <form action="search" method="get" class="input-group">
                     <input type="hidden" name="from" value="SearchFilter" />
@@ -35,10 +35,11 @@
                 </form>
             </div>
 
-            <!-- Liên kết đăng nhập -->
+            <!-- Login Links -->
             <div class="text-end d-flex align-items-center gap-3">
                 <%
-                    if (session.getAttribute("username") == null) {
+                    User user = (User) session.getAttribute("user");
+                    if (user == null || user.getUsername() == null || user.getUsername().isEmpty()) {
                 %> 
                 <div>
                     <a href="signin?action=signin" class="btn btn-outline-light btn-sm me-2">
@@ -51,24 +52,29 @@
 
                 <%
                 } else {
-
-
                 %> 
                 <div>
                     <a href="profile" class="btn btn-success" style="background:#ffffff; color: #000 ;border:none;">
-                        Hello, <%= session.getAttribute("username")%>
+                        Hello, <%= user.getUsername()%>
                     </a>
+                    <%
+                        if (user.getRole_ID() == 1) {
+                    %> 
+                    <a href="admin" class="btn btn-success" style="background:#ffffff; color: #000 ;border:none;">
+                       Administrator
+                    </a>
+                    <%
+                        }
+                    %>
                 </div>
-
                 <%
                     }
-
                 %>
 
-                <!--                         Nút tài khoản 
+                <!--                         Account Button 
                                        
                                             <a href="profile" class="btn btn-warning">Account</a>
-                                         Nút giỏ hàng 
+                                         Cart Button 
                 -->
                 <a href="cart" class="btn btn-warning"> <i class="fa-solid fa-cart-shopping"></i> </a>
 

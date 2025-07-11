@@ -17,54 +17,54 @@
     <%@include file="Header.jsp" %>
     <div class="container my-5">
         <h2 class="mb-4 text-center">
-            <i class="fa fa-search text-primary"></i> Kết quả cho từ khóa: <span class="text-success">"<%= keyword %>"</span>
+                            <i class="fa fa-search text-primary"></i> Results for keyword: <span class="text-success">"<%= keyword %>"</span>
         </h2>
-        <!-- Bộ lọc tìm kiếm + Sắp xếp -->
+        <!-- Search Filter + Sort -->
         <form class="row g-3 align-items-end mb-4" method="post" action="search">
             <input type="hidden" name="keyword" value="<%= keyword %>" />
             <div class="col-md-3">
-                <label class="form-label">Khoảng giá</label>
+                <label class="form-label">Price Range</label>
                 <select class="form-select" name="price">
-                    <option value="">Tất cả</option>
-                    <option value="0-5000000">Dưới 5 triệu</option>
-                    <option value="5000000-10000000">5 - 10 triệu</option>
-                    <option value="10000000-20000000">10 - 20 triệu</option>
-                    <option value="20000000-999999999">Trên 20 triệu</option>
+                    <option value="">All</option>
+                    <option value="0-5000000">Under 5 million</option>
+                    <option value="5000000-10000000">5 - 10 million</option>
+                    <option value="10000000-20000000">10 - 20 million</option>
+                    <option value="20000000-999999999">Over 20 million</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label">Đánh giá</label>
+                <label class="form-label">Rating</label>
                 <select class="form-select" name="rating">
-                    <option value="">Tất cả</option>
+                    <option value="">All</option>
                     <option value="5">5 ★</option>
-                    <option value="4">4 ★ trở lên</option>
-                    <option value="3">3 ★ trở lên</option>
+                    <option value="4">4 ★ and above</option>
+                    <option value="3">3 ★ and above</option>
                 </select>
             </div>
             <div class="col-md-2">
-                <label class="form-label">Sắp xếp theo</label>
+                <label class="form-label">Sort by</label>
                 <select class="form-select" name="sort">
-                    <option value="">Mặc định</option>
-                    <option value="price_asc">Giá tăng dần</option>
-                    <option value="price_desc">Giá giảm dần</option>
-                    <option value="name_asc">Tên A-Z</option>
-                    <option value="name_desc">Tên Z-A</option>
-                    <option value="id_desc">Mới nhất</option>
-                    <option value="id_asc">Cũ nhất</option>
+                    <option value="">Default</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="name_asc">Name: A-Z</option>
+                    <option value="name_desc">Name: Z-A</option>
+                    <option value="id_desc">Newest</option>
+                    <option value="id_asc">Oldest</option>
                 </select>
             </div>
             <div class="col-md-1">
-                <button type="submit" class="btn btn-primary w-100"><i class="fa fa-filter"></i> Lọc</button>
+                <button type="submit" class="btn btn-primary w-100"><i class="fa fa-filter"></i> Filter</button>
             </div>
         </form>
         <% if (list_Search == null || list_Search.isEmpty()) { %>
             <div class="alert alert-warning text-center py-5">
                 <i class="fa fa-box-open fa-2x mb-3"></i><br/>
-                Không tìm thấy sản phẩm nào phù hợp!
+                No products found!
             </div>
         <% } else { %>
         <div class="mb-3 text-end text-muted">
-            <i class="fa fa-box"></i> Tìm thấy <b><%= list_Search.size() %></b> sản phẩm
+            <i class="fa fa-box"></i> Found <b><%= list_Search.size() %></b> products
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
             <% for (Product pro : list_Search) { %>
@@ -90,7 +90,7 @@
                             <input type="hidden" name="image" value="<%= pro.getPro_Image()%>" />
                             <input type="hidden" name="price" value="<%= pro.getPro_Price()%>" />
                             <input type="hidden" name="quantity" value="1" />
-                            <button type="submit" class="btn btn-warning w-100">🛒 Thêm vào giỏ</button>
+                            <button type="submit" class="btn btn-warning w-100">🛒 Add to Cart</button>
                         </form>
                     </div>
                 </div>

@@ -196,8 +196,12 @@
                 <form class="profile-form" action="profile" method="post">
                     <div class="form-left">
                         <div class="form-group">
-                            <label for="username">Full Name:</label>
-                            <input type="text" id="username" name="username" value="<%= acc.getUsername()%>" placeholder="Enter your full name">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" value="<%= acc.getUsername()%>">
+                        </div>
+                         <div class="form-group">
+                            <label for="fullname">Full Name:</label>
+                            <input type="text" id="fullname" name="fullname" value="<%= acc.getFullname()%>" placeholder="Enter your full name">
                         </div>
                         <div class="form-group">
                             <label>Gender:</label>
@@ -213,14 +217,18 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="phone">Phone:</label>
-                            <input type="text" id="phone" name="phone" value="<%= acc.getPhone()%>" placeholder="Enter your phone number">
-                        </div>
+                       
+
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="email" id="email" name="email" value="<%= acc.getEmail()%>" placeholder="Enter your email">
                         </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input type="text" id="phone" name="phone" value="<%= acc.getPhone()%>" placeholder="Enter your phone number">
+                        </div>
+
                         <div class="form-group">
                             <label for="address">Address:</label>
                             <input type="text" id="address" name="address"  value="<%= acc.getAddress()%>" placeholder="Enter your address">

@@ -208,7 +208,7 @@
 <body>
     <%@include file="Header.jsp" %>
     <div class="container my-5">
-        <!-- Nút Back -->
+        <!-- Back Button -->
         <button class="btn-back mb-4" onclick="window.history.back()">
             <span style="font-size: 1.2em; margin-right: 6px;">&#8592;</span> <b>Back</b>
         </button>
@@ -217,17 +217,17 @@
         <% } else { %>
         <div class="product-container p-4">
             <div class="row">
-                <!-- Cột trái: Hình ảnh và thông số kỹ thuật -->
+                <!-- Left Column: Image and Specifications -->
                 <div class="col-md-5">
                     <img src="<%= product.getPro_Image() %>" class="img-fluid product-image" alt="<%= product.getPro_Name() %>">
                 </div>
                 
-                <!-- Cột phải: Thông tin sản phẩm và màu sắc -->
+                <!-- Right Column: Product Information and Colors -->
                 <div class="col-md-7">
                     <div class="product-info">
                         <h2 class="product-title"><%= product.getPro_Name() %></h2>
                         <p class="text-muted mb-3"><%= product.getPro_Description() %></p>
-                        <h3 class="product-price mb-4"><%= String.format("%,.0f", product.getPro_Price()) %> ₫</h3>
+                        <h3 class="product-price mb-4"><%=  product.getPro_Price() %> $</h3>
                         
                         <form action="cart" method="post" class="mb-4">
                             <input type="hidden" name="action" value="add" />
@@ -252,10 +252,10 @@
                             </div>
                         </div>
                         
-                        <!-- Phần màu sắc nằm cuối bên phải -->
+                        <!-- Color section at the bottom right -->
                         <% if (product.getPro_Colors() != null && !product.getPro_Colors().trim().isEmpty()) { %>
                         <div class="color-section">
-                            <h5 class="mb-3 text-primary">🎨 Màu sắc có sẵn:</h5>
+                            <h5 class="mb-3 text-primary">🎨 Available Colors:</h5>
                             <div class="color-selection">
                                 <% 
                                 String[] colors = product.getPro_Colors().split(",");
@@ -305,14 +305,14 @@
                 </div>
             </div>
             
-            <!-- Phần thông số kỹ thuật và mô tả chi tiết nằm dưới -->
+            <!-- Technical specifications and detailed description section below -->
             <div class="specs-detail-row">
                 <div class="row">
-                    <!-- Thông số kỹ thuật bên trái -->
+                    <!-- Technical specifications on the left -->
                     <div class="col-md-6">
                         <% if (product.getPro_Specs() != null && !product.getPro_Specs().trim().isEmpty()) { %>
                         <div class="specs-section">
-                            <h3 class="mb-3 text-primary">📋 Thông số kỹ thuật</h3>
+                            <h3 class="mb-3 text-primary">📋 Technical Specifications</h3>
                             <div class="specs-table">
                                 <%= product.getPro_Specs() %>
                             </div>
@@ -320,12 +320,12 @@
                         <% } %>
                     </div>
                     
-                    <!-- Mô tả chi tiết bên phải -->
+                    <!-- Detailed description on the right -->
                     <div class="col-md-6">
                         <% if (product.getPro_Detail_Image() != null && !product.getPro_Detail_Image().trim().isEmpty()) { %>
                         <div class="detail-image-section">
-                            <h3 class="mb-3 text-primary">📖 Mô tả chi tiết</h3>
-                            <img src="<%= product.getPro_Detail_Image() %>" class="detail-image" alt="Mô tả chi tiết <%= product.getPro_Name() %>">
+                            <h3 class="mb-3 text-primary">📖 Detailed Description</h3>
+                            <img src="<%= product.getPro_Detail_Image() %>" class="detail-image" alt="Detailed description of <%= product.getPro_Name() %>">
                         </div>
                         <% } %>
                     </div>
@@ -338,20 +338,20 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // JavaScript để xử lý chọn màu sắc
+        // JavaScript to handle color selection
         document.addEventListener('DOMContentLoaded', function() {
             const colorOptions = document.querySelectorAll('.color-option');
             
             colorOptions.forEach(option => {
                 option.addEventListener('click', function() {
-                    // Bỏ chọn tất cả các màu khác
+                    // Deselect all other colors
                     colorOptions.forEach(opt => opt.classList.remove('selected'));
-                    // Chọn màu hiện tại
+                    // Select current color
                     this.classList.add('selected');
                 });
             });
             
-            // Chọn màu đầu tiên mặc định
+            // Select first color by default
             if (colorOptions.length > 0) {
                 colorOptions[0].classList.add('selected');
             }

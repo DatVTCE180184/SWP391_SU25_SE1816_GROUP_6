@@ -97,6 +97,12 @@
                     <input type="text" id="username" class="form-control" name="username" placeholder="Username" required>
                     <div id="usernameError" class="error"></div>
                 </div>
+                
+                <!-- FullName -->
+                <div class="mb-3">
+                    <input type="text" id="fullname" class="form-control" name="fullname" placeholder="Full Name" required>
+                    <div id="fullnameError" class="error"></div>
+                </div>
 
                 <!-- Email -->
                 <div class="mb-3">

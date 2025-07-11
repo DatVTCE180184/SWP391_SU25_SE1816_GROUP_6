@@ -21,7 +21,7 @@ CREATE TABLE Role (
 );
 
 create Table Users (
- User_ID INT PRIMARY KEY IDENTITY(1,1),
+   INT PRIMARY KEY IDENTITY(1,1),
 
  Username VARCHAR(255) NOT NULL,
  Password VARCHAR(255) NOT NULL,
@@ -644,42 +644,27 @@ SET Product_Colors = N'Đen,Trắng',
 <tr><td><strong>Công nghệ NFC</strong></td><td>Có</td></tr>
 </table>'
 WHERE Product_ID = 10;
-SELECT * FROM Product;
-select * from Users
-
-select * from Role
-
-select * from Product where Category_ID = 1
 
 update Category
 set Category_Image = 'fa-gamepad'
 where Category_ID = 4;
 
-select * from Category
+
 
 update Product
 set Product_Image = 'https://cdn-mms.hktvmall.com/HKTV/mms/uploadProductImage/ef95/7974/98bf/uFrkWaECgO20240705143836_515.jpg'
 where Product_ID = 3
 
 
-
-f
-
-select * from Category
-
-
 ALTER TABLE Orders
 ADD Order_FullName VARCHAR(100);
 
-update Orders
-set Order_FullName = 'User 01'
-where Order_ID
 
 INSERT INTO Orders (User_ID, Shipping_Address, Order_Phone, Note, Total_Amount, Payment_Method, Status)
 VALUES 
 (3, '789 User Road', '0111222333', 'Please deliver quickly', 1029.98, 'COD', 'Processing');
 
-select * from Orders
+
 
 -- Tìm tên constraint
 SELECT name
@@ -695,23 +680,11 @@ ALTER TABLE Orders
 ADD CONSTRAINT CK_Orders_PaymentMethod
 CHECK (Payment_Method IN ('COD', 'InStore'));
 
-DELETE FROM Orders
-WHERE Order_ID = 2;
-
-DELETE FROM Order_Detail
-WHERE Order_ID = 2;
-
-select * from Order_Detail
-
-select * from Orders
-
-select * from Product
-
-DBCC CHECKIDENT ('Orders', RESEED, 1);
+select * from Users
+DBCC CHECKIDENT ('Orders', RESEED, 5);
 DBCC CHECKIDENT ('Order_Detail', RESEED, 2);
 
-Select max(Order_ID) from Orders
-Select max(Order_Detail_ID) from Order_Detail
 
-select * from Users
+ALTER TABLE Users
+ADD FullName varchar(255);
 

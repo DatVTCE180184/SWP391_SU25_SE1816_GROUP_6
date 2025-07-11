@@ -10,7 +10,7 @@ fetch('https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1')
             provinces.map(value => document.getElementById('provinces').innerHTML += `<option value='${value.code}'>${value.name}</option>`);
         })
         .catch(error => {
-            console.error('Lỗi khi gọi API:', error);
+            console.error('Error calling API:', error);
         });
 
 function fetchDistricts(provincesID) {
@@ -23,12 +23,12 @@ function fetchDistricts(provincesID) {
                     districts.map(value => document.getElementById('districts').innerHTML += `<option value='${value.code}'>${value.name}</option>`);
                 }
             })
-            .catch(error => {
-                console.error('Lỗi khi gọi API:', error);
+                        .catch(error => {
+                console.error('Error calling API:', error);
             });
-}
+        }
 
-function fetchWards(districtsID) {
+        function fetchWards(districtsID) {
     fetch(`https://vn-public-apis.fpo.vn/wards/getByDistrict?districtCode=${districtsID}&limit=-1`)
             .then(response => response.json())
             .then(data => {
@@ -38,10 +38,10 @@ function fetchWards(districtsID) {
                     wards.map(value => document.getElementById('wards').innerHTML += `<option value='${value.code}'>${value.name}</option>`);
                 }
             })
-            .catch(error => {
-                console.error('Lỗi khi gọi API:', error);
+                        .catch(error => {
+                console.error('Error calling API:', error);
             });
-}
+        }
 
 function getProvinces(event) {
     fetchDistricts(event.target.value);

@@ -12,11 +12,11 @@
         <form class="row mb-3" method="get" action="product">
             <input type="hidden" name="action" value="admin"/>
             <div class="col">
-                <input type="text" name="keyword" class="form-control" placeholder="Tìm theo tên sản phẩm..." value="${param.keyword}"/>
+                <input type="text" name="keyword" class="form-control" placeholder="Search by product name..." value="${param.keyword}"/>
             </div>
             <div class="col">
                 <select name="cat_ID" class="form-select">
-                    <option value="">Tất cả danh mục</option>
+                    <option value="">All Categories</option>
                     <c:forEach var="cat" items="${list_Category}">
                         <option value="${cat.cat_ID}" <c:if test="${param.cat_ID == cat.cat_ID}">selected</c:if>>${cat.cat_Name}</option>
                     </c:forEach>
@@ -24,13 +24,13 @@
             </div>
             <div class="col">
                 <select name="status" class="form-select">
-                    <option value="">Tất cả trạng thái</option>
-                    <option value="1" <c:if test="${param.status == '1'}">selected</c:if>>Hiện</option>
-                    <option value="0" <c:if test="${param.status == '0'}">selected</c:if>>Ẩn</option>
+                    <option value="">All Status</option>
+                    <option value="1" <c:if test="${param.status == '1'}">selected</c:if>>Active</option>
+                    <option value="0" <c:if test="${param.status == '0'}">selected</c:if>>Hidden</option>
                 </select>
             </div>
             <div class="col">
-                <button type="submit" class="btn btn-info">Lọc</button>
+                <button type="submit" class="btn btn-info">Filter</button>
             </div>
         </form>
         <a href="product?action=addForm" class="btn btn-primary mb-3">Add New Product</a>
@@ -53,26 +53,26 @@
                         <td>${product.pro_ID}</td>
                         <td>${product.pro_Name}</td>
                         <td>${product.cat_Name}</td>
-                        <td><img src="${product.pro_Image}" alt="Ảnh" style="width:50px;height:50px;object-fit:cover;"/></td>
+                        <td><img src="${product.pro_Image}" alt="Image" style="width:50px;height:50px;object-fit:cover;"/></td>
                         <td>${product.pro_Price}</td>
                         <td>${product.pro_Quantity}</td>
                         <td>
                             <c:choose>
                                 <c:when test="${product.pro_Status}">
-                                    <span class="badge bg-success">Hiện</span>
+                                    <span class="badge bg-success">Active</span>
                                 </c:when>
                                 <c:otherwise>
-                                    <span class="badge bg-secondary">Ẩn</span>
+                                    <span class="badge bg-secondary">Hidden</span>
                                 </c:otherwise>
                             </c:choose>
                         </td>
                         <td>
                             <c:choose>
                                 <c:when test="${product.pro_Status}">
-                                    <a href="product?action=toggleStatus&id=${product.pro_ID}&status=true" class="btn btn-sm btn-secondary">Ẩn</a>
+                                    <a href="product?action=toggleStatus&id=${product.pro_ID}&status=true" class="btn btn-sm btn-secondary">Hide</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="product?action=toggleStatus&id=${product.pro_ID}&status=false" class="btn btn-sm btn-success">Hiện</a>
+                                    <a href="product?action=toggleStatus&id=${product.pro_ID}&status=false" class="btn btn-sm btn-success">Show</a>
                                 </c:otherwise>
                             </c:choose>
                             <a href="product?action=editForm&id=${product.pro_ID}" class="btn btn-sm btn-warning">Edit</a>

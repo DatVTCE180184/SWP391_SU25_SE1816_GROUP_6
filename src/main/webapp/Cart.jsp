@@ -18,7 +18,7 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
-        <title>Giỏ hàng và đặt hàng</title>
+        <title>Cart and Checkout</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -29,30 +29,30 @@
         <div class="container py-5">
             <div class="container py-3">
                 <a href="home" class="btn btn-outline-secondary">
-                    ← Quay lại trang trước
+                    ← Back 
                 </a>
             </div>
 
             <div class="row g-4">
 
-                <!-- Cột 1: Giỏ hàng -->
+                <!-- Column 1: Cart -->
                 <div class="col-lg-7">
                     <div class="card shadow-sm">
                         <div class="card-header bg-warning text-dark fw-bold fs-5">
-                            🛒 Giỏ hàng của bạn
+                            🛒 Your Cart
                         </div>
                         <div class="card-body">
                             <% if (cart == null || cart.isEmpty()) { %>
-                            <p class="text-center text-muted">Giỏ hàng hiện đang trống.</p>
+                            <p class="text-center text-muted">Your cart is currently empty.</p>
                             <% } else { %>
                             <table class="table align-middle">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Ảnh</th>
-                                        <th>Sản phẩm</th>
-                                        <th>Giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Thành tiền</th>
+                                        <th>Image</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -83,7 +83,7 @@
                                             <form action="cart" method="post">
                                                 <input type="hidden" name="action" value="remove">
                                                 <input type="hidden" name="id" value="<%= item.getId()%>">
-                                                <button class="btn btn-sm btn-danger">Xóa</button>
+                                                <button class="btn btn-sm btn-danger">Remove</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -91,19 +91,19 @@
                                 </tbody>
                             </table>
                             <div class="text-end fw-bold fs-5">
-                                Tổng tiền: <%= df.format(total)%> $
+                                Total: <%= df.format(total)%> $
                             </div>
                             <% }%>
                         </div>
                     </div>
                 </div>
 
-                <!-- Cột 2: Form đặt hàng -->
+                <!-- Column 2: Order Form -->
                 <% if (cart != null && !cart.isEmpty()) {%>
                 <div class="col-lg-5">
                     <div class="card shadow-sm">
                         <div class="card-header bg-success text-white fw-bold fs-5">
-                            Thông tin đặt hàng
+                            Order Information
                         </div>
                         <div class="card-body">
                             <form action="order" method="post">
@@ -111,35 +111,35 @@
                                 <input type="hidden" name="userId" value="<%= acc != null ? acc.getID() : ""%>">
 
                                 <div class="mb-3">
-                                    <label class="form-label">Họ và tên:</label>
-                                    <input type="text" name="fullname" class="form-control" required value="<%= acc != null ? acc.getUsername() : ""%>">
+                                    <label class="form-label">Full Name:</label>
+                                    <input type="text" name="fullname" class="form-control" required value="<%= acc != null ? acc.getFullname(): ""%>">
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Số điện thoại:</label>
+                                    <label class="form-label">Phone Number:</label>
                                     <input type="tel" name="phone" class="form-control" required value="<%= acc != null ? acc.getPhone() : ""%>">
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Ghi chú:</label>
+                                    <label class="form-label">Note:</label>
                                     <textarea name="note" class="form-control" rows="2"></textarea>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label fw-bold">Hình thức nhận hàng</label>
+                                    <label class="form-label fw-bold">Delivery Method</label>
                                     <div class="btn-group w-100 mb-3" role="group">
                                         <input type="radio" class="btn-check" name="Payment_Method" id="cod" value="COD">
-                                        <label class="btn btn-outline-secondary w-50" for="cod">Nhận hàng tại nhà</label>
+                                        <label class="btn btn-outline-secondary w-50" for="cod">Home Delivery</label>
 
                                         <input type="radio" class="btn-check" name="Payment_Method" id="instore" value="InStore" checked>
-                                        <label class="btn btn-outline-success w-50" for="instore">Nhận hàng tại cửa hàng</label>
+                                        <label class="btn btn-outline-success w-50" for="instore">Store Pickup</label>
                                     </div>
                                 </div>
 
-                                <!-- Phần nhập địa chỉ chi tiết -->
+                                <!-- Detailed Address Input -->
                                 <div id="homeAddressFields" class="d-none">
                                     <div class="mb-3">
-                                        <label class="form-label">Tỉnh / Thành phố:</label>
+                                        <label class="form-label">Province / City:</label>
                                         <!--                                        <input type="text" name="province" class="form-control" placeholder="VD: TP. Hồ Chí Minh">-->
                                         <select id="provinces" class="form-control" name="province" onchange="getProvinces(event)" required>
                                             <option value="">-- Select province --</option>
@@ -148,7 +148,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Quận / Huyện:</label>
+                                        <label class="form-label">District / County:</label>
                                         <!--                                        <input type="text" name="district" class="form-control" placeholder="VD: Quận 1">-->
                                         <select id="districts" class="form-control" name="district" onchange="getDistricts(event)" required>
                                             <option value="">-- Select district--</option>
@@ -156,19 +156,19 @@
                                         <input type="hidden" name="districtName" id="districtName">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Phường / xã:</label>
+                                        <label class="form-label">Ward / Commune:</label>
                                         <select id="wards" class="form-control" name="ward" required>
                                             <option value="">-- Select ward --</option>
                                         </select>
                                         <input type="hidden" name="wardName" id="wardName">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Đường / Số nhà:</label>
-                                        <input type="text" name="street" class="form-control" placeholder="VD: 123 Nguyễn Trãi">
+                                        <label class="form-label">Street / House Number:</label>
+                                        <input type="text" name="street" class="form-control" placeholder="Ex: 123 Nguyen Trai">
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-success w-100 fw-bold py-2" >Xác nhận và đặt hàng</button>
+                                <button type="submit" class="btn btn-success w-100 fw-bold py-2" >Confirm and Place Order</button>
                             </form>
                         </div>
                     </div>

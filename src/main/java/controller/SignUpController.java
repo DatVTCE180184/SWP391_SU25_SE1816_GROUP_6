@@ -95,15 +95,20 @@ public class SignUpController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
+        String fullname = request.getParameter("fullname");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         String gender = request.getParameter("gender_id");
 
         // Validate
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()
-                || confirmPassword == null || confirmPassword.isEmpty() || email == null || email.isEmpty()
-                || phone == null || phone.isEmpty() || address == null || address.isEmpty()
+        if (username == null || username.isEmpty()
+                || password == null || password.isEmpty()
+                || confirmPassword == null || confirmPassword.isEmpty()
+                || email == null || email.isEmpty()
+                || fullname == null || fullname.isEmpty()
+                || phone == null || phone.isEmpty()
+                || address == null || address.isEmpty()
                 || gender == null || gender.isEmpty()) {
 
             session.setAttribute("error", "All fields are required!");
@@ -137,6 +142,7 @@ public class SignUpController extends HttpServlet {
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
+            user.setFullname(fullname);
             user.setEmail(email);
             user.setPhone(phone);
             user.setAddress(address);
