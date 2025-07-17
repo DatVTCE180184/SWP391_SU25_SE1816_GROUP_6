@@ -7,6 +7,7 @@ controller\UserController.class
 controller\SearchingController$4.class
 dao\UserDao.class
 controller\SignUpController.class
+model\ProductSpec.class
 utils\DBContext.class
 controller\SignInController.class
 dao\OrderDao.class
@@ -19,6 +20,7 @@ controller\CartController.class
 controller\AdminController.class
 controller\ProfileController.class
 controller\SearchingController.class
+model\GroupSpecDTO.class
 model\Order_Detail.class
 controller\SearchingController$1.class
 controller\ProductController.class

@@ -142,10 +142,14 @@ public class ProductController extends HttpServlet {
         } 
         
         if ("details".equals(action)) {
-            String String_id = request.getParameter("id");
+             String String_id = request.getParameter("id");
             int id = Integer.parseInt(String_id);
             Product product = proDao.getProductById(id);
+            // Lấy groupList (thông số kỹ thuật)
+            int categoryId = product.getCat_ID();
+            java.util.List<model.GroupSpecDTO> groupList = proDao.getGroupedSpecsByProductId(id, categoryId);
             request.setAttribute("product", product);
+            request.setAttribute("groupList", groupList); // <-- Truyền groupList sang JSP
             request.getRequestDispatcher("Product.jsp").forward(request, response);
             return;
         }
@@ -191,7 +195,7 @@ public class ProductController extends HttpServlet {
                 String colors = request.getParameter("pro_Colors");
                 String specs = request.getParameter("pro_Specs");
                 String detailImg = request.getParameter("pro_Detail_Image");
-                Product p = new Product(-1, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, specs, detailImg, null);
+                Product p = new Product(-1, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, detailImg, null);
                 proDao.addProduct(p);
                 response.sendRedirect("product?action=admin");
                 return;
@@ -208,7 +212,7 @@ public class ProductController extends HttpServlet {
                 String colors = request.getParameter("pro_Colors");
                 String specs = request.getParameter("pro_Specs");
                 String detailImg = request.getParameter("pro_Detail_Image");
-                Product p = new Product(id, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, specs, detailImg, null);
+               Product p = new Product(id, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, detailImg, null);
                 proDao.updateProduct(p);
                 response.sendRedirect("product?action=admin");
                 return;

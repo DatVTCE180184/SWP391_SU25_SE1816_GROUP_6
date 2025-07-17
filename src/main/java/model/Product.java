@@ -22,7 +22,6 @@ public class Product {
       
     // Thêm các trường mới cho màu sắc và thông số kỹ thuật
     private String Pro_Colors;
-    private String Pro_Specs;
     // chi tiết sản phẩm 
     private String Pro_Detail_Image;
     private String cat_Name; // Tên danh mục
@@ -37,7 +36,6 @@ public class Product {
         this.Pro_Quantity = 0;
         this.Pro_Status = false;
         this.Pro_Colors = "";
-        this.Pro_Specs = "";
         // chi tiết sản phẩm 
         this.Pro_Detail_Image = "";
         this.cat_Name = "";
@@ -53,14 +51,13 @@ public class Product {
         this.Pro_Quantity = Pro_Quantity;
         this.Pro_Status = (Pro_Status == 1);
         this.Pro_Colors = "";
-        this.Pro_Specs = "";
         // chi tiết sản phẩm 
         this.Pro_Detail_Image = "";
         this.cat_Name = "";
     }
 
     // Constructor mới với đầy đủ thông tin
-    public Product(int Pro_ID, int Cat_ID, String Pro_Name, String Pro_Description, String Pro_Image, double Pro_Price, int Pro_Quantity, int Pro_Status, String Pro_Colors, String Pro_Specs, String Pro_Detail_Image, String cat_Name) {
+    public Product(int Pro_ID, int Cat_ID, String Pro_Name, String Pro_Description, String Pro_Image, double Pro_Price, int Pro_Quantity, int Pro_Status, String Pro_Colors, String Pro_Detail_Image, String cat_Name) {
         this.Pro_ID = Pro_ID;
         this.Cat_ID = Cat_ID;
         this.Pro_Name = Pro_Name;
@@ -70,7 +67,6 @@ public class Product {
         this.Pro_Quantity = Pro_Quantity;
         this.Pro_Status = (Pro_Status == 1);
         this.Pro_Colors = Pro_Colors != null ? Pro_Colors : "";
-        this.Pro_Specs = Pro_Specs != null ? Pro_Specs : "";
         // chi tiết sản phẩm
         this.Pro_Detail_Image = Pro_Detail_Image != null ? Pro_Detail_Image : "";
         this.cat_Name = cat_Name;
@@ -149,15 +145,7 @@ public class Product {
         this.Pro_Colors = Pro_Colors;
     }
 
-    // Thêm getter và setter cho thông số kỹ thuật
-    public String getPro_Specs() {
-        return Pro_Specs;
-    }
-
-    public void setPro_Specs(String Pro_Specs) {
-        this.Pro_Specs = Pro_Specs;
-    }
-// chi tiết sản phẩm 
+    // chi tiết sản phẩm 
     public String getPro_Detail_Image() {
         return Pro_Detail_Image;
     }
@@ -176,7 +164,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "Pro_ID=" + Pro_ID + ", Cat_ID=" + Cat_ID + ", Pro_Name=" + Pro_Name + ", Pro_Description=" + Pro_Description + ", Pro_Image=" + Pro_Image + ", Pro_Price=" + Pro_Price + ", Pro_Quantity=" + Pro_Quantity + ", Pro_Status=" + Pro_Status + ", Pro_Colors=" + Pro_Colors + ", Pro_Specs=" + Pro_Specs + ", Pro_Detail_Image=" + Pro_Detail_Image + ", cat_Name=" + cat_Name + '}';
+        return "Product{" + "Pro_ID=" + Pro_ID + ", Cat_ID=" + Cat_ID + ", Pro_Name=" + Pro_Name + ", Pro_Description=" + Pro_Description + ", Pro_Image=" + Pro_Image + ", Pro_Price=" + Pro_Price + ", Pro_Quantity=" + Pro_Quantity + ", Pro_Status=" + Pro_Status + ", Pro_Colors=" + Pro_Colors + ", Pro_Detail_Image=" + Pro_Detail_Image + ", cat_Name=" + cat_Name + '}';
     }
     
     

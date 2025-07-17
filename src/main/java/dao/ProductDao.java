@@ -12,6 +12,8 @@ import java.util.List;
 import model.Category;
 import utils.DBContext;
 import model.Product;
+import model.GroupSpecDTO;// mới them 12-7 de chia nhóm cho thông số kỹ thuật 
+import model.ProductSpec;
 
 /**
  *
@@ -39,7 +41,7 @@ public class ProductDao extends DBContext {
                         rs.getString("Product_Name"), rs.getString("Product_Description"),
                         rs.getString("Product_Image"), rs.getDouble("Product_Price"),
                         rs.getInt("Product_Quantity"), rs.getInt("Product_Status"),
-                        rs.getString("Product_Colors"), rs.getString("Product_Specs"), rs.getString("Product_Detail_Image"),
+                        rs.getString("Product_Colors"), rs.getString("Product_Detail_Image"),
                         rs.getString("cat_Name")
                 );
                 listProduct.add(product);
@@ -74,7 +76,7 @@ public class ProductDao extends DBContext {
                         rs.getString("Product_Image"), rs.getDouble("Product_Price"),
                         rs.getInt("Product_Quantity"), rs.getInt("Product_Status"),
                         // mới thêm  chi tiết sản phẩm 
-                        rs.getString("Product_Colors"), rs.getString("Product_Specs"), rs.getString("Product_Detail_Image"),
+                       rs.getString("Product_Colors"), rs.getString("Product_Detail_Image"),
                         null // cat_Name
                 );
                 listProduct_By_Category.add(product);
@@ -103,7 +105,7 @@ public class ProductDao extends DBContext {
                         rs.getInt("Product_Quantity"),
                         rs.getInt("Product_Status"),
                         rs.getString("Product_Colors"),
-                        rs.getString("Product_Specs"),
+                       // rs.getString("Product_Specs"),
                         // chi tiết sản phẩm 
                         rs.getString("Product_Detail_Image"),
                         null // cat_Name
@@ -135,7 +137,7 @@ public class ProductDao extends DBContext {
                         rs.getInt("Product_Quantity"),
                         rs.getInt("Product_Status"),
                         rs.getString("Product_Colors"),
-                        rs.getString("Product_Specs"),
+                       // rs.getString("Product_Specs"),
                         // chi tiết sản phẩm 
                         rs.getString("Product_Detail_Image"),
                         null // cat_Name
@@ -171,7 +173,7 @@ public class ProductDao extends DBContext {
                         rs.getInt("Product_Quantity"),
                         rs.getInt("Product_Status"),
                         rs.getString("Product_Colors"),
-                        rs.getString("Product_Specs"),
+                        //rs.getString("Product_Specs"),
                         // chi tiết sản phẩm 
                         rs.getString("Product_Detail_Image"),
                         null // cat_Name
@@ -197,7 +199,7 @@ public class ProductDao extends DBContext {
             ps.setInt(6, p.getPro_Quantity());
             ps.setInt(7, p.isPro_Status() ? 1 : 0);
             ps.setString(8, p.getPro_Colors());
-            ps.setString(9, p.getPro_Specs());
+            //ps.setString(9, p.getPro_Specs());
             ps.setString(10, p.getPro_Detail_Image());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -208,7 +210,7 @@ public class ProductDao extends DBContext {
 
     // Sửa sản phẩm
     public boolean updateProduct(Product p) {
-        String sql = "UPDATE Product SET Category_ID=?, Product_Name=?, Product_Description=?, Product_Image=?, Product_Price=?, Product_Quantity=?, Product_Status=?, Product_Colors=?, Product_Specs=?, Product_Detail_Image=? WHERE Product_ID=?";
+        String sql = "UPDATE Product SET Category_ID=?, Product_Name=?, Product_Description=?, Product_Image=?, Product_Price=?, Product_Quantity=?, Product_Status=?, Product_Colors=?, Product_Detail_Image=? WHERE Product_ID=?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, p.getCat_ID());
@@ -219,12 +221,12 @@ public class ProductDao extends DBContext {
             ps.setInt(6, p.getPro_Quantity());
             ps.setInt(7, p.isPro_Status() ? 1 : 0);
             ps.setString(8, p.getPro_Colors());
-            ps.setString(9, p.getPro_Specs());
-            ps.setString(10, p.getPro_Detail_Image());
-            ps.setInt(11, p.getPro_ID());
-            return ps.executeUpdate() > 0;
+            ps.setString(9, p.getPro_Detail_Image());
+            ps.setInt(10, p.getPro_ID());
+            int rows = ps.executeUpdate();
+            return rows > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error");
         }
         return false;
     }
@@ -259,7 +261,7 @@ public class ProductDao extends DBContext {
     // Lọc sản phẩm theo tên, danh mục, trạng thái
     public List<Product> searchAndFilterProducts(String keyword, String catId, String status) {
         List<Product> list = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT p.Product_ID, p.Category_ID, p.Product_Name, p.Product_Description, p.Product_Image, p.Product_Price, p.Product_Quantity, p.Product_Status, p.Product_Colors, p.Product_Specs, p.Product_Detail_Image, c.Category_Name as cat_Name FROM Product p JOIN Category c ON p.Category_ID = c.Category_ID WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT p.Product_ID, p.Category_ID, p.Product_Name, p.Product_Description, p.Product_Image, p.Product_Price, p.Product_Quantity, p.Product_Status, p.Product_Colors, p.Product_Detail_Image, c.Category_Name as cat_Name FROM Product p JOIN Category c ON p.Category_ID = c.Category_ID WHERE 1=1");
         List<Object> params = new ArrayList<>();
         if (keyword != null && !keyword.isEmpty()) {
             sql.append(" AND p.Product_Name LIKE ?");
@@ -285,7 +287,7 @@ public class ProductDao extends DBContext {
                         rs.getString("Product_Name"), rs.getString("Product_Description"),
                         rs.getString("Product_Image"), rs.getDouble("Product_Price"),
                         rs.getInt("Product_Quantity"), rs.getInt("Product_Status"),
-                        rs.getString("Product_Colors"), rs.getString("Product_Specs"), rs.getString("Product_Detail_Image"),
+                        rs.getString("Product_Colors"), rs.getString("Product_Detail_Image"),
                         rs.getString("cat_Name")
                 );
                 list.add(product);
@@ -296,10 +298,72 @@ public class ProductDao extends DBContext {
         return list;
     }
 
+// Thêm hàm lấy thông số kỹ thuật từ bảng Product_Spec (chuẩn hóa)
+    public List<ProductSpec> getSpecsByProductId(int productId) {
+        List<ProductSpec> specs = new ArrayList<>();
+        String sql = "SELECT ps.Spec_ID, ps.Product_ID, st.Spec_Name, ps.Spec_Value "
+                + "FROM Product_Spec ps "
+                + "JOIN Spec_Type st ON ps.Spec_ID = st.Spec_ID "
+                + "WHERE ps.Product_ID = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductSpec spec = new ProductSpec();
+                spec.setSpecId(rs.getInt("Spec_ID"));
+                spec.setProductId(rs.getInt("Product_ID"));
+                spec.setSpecName(rs.getString("Spec_Name")); // Lấy từ Spec_Type
+                spec.setSpecValue(rs.getString("Spec_Value"));
+                specs.add(spec);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return specs;
+    }
+    // 11/7 lấy thông số kỹ thuật theo nhóm 
+
+    public List<GroupSpecDTO> getGroupedSpecsByProductId(int productId, int categoryId) {
+        List<GroupSpecDTO> groupList = new ArrayList<>();
+        String groupSql = "SELECT Group_ID, Group_Name FROM Spec_Group WHERE Category_ID = ?";
+        try ( PreparedStatement groupPs = conn.prepareStatement(groupSql)) {
+            groupPs.setInt(1, categoryId);
+            ResultSet groupRs = groupPs.executeQuery();
+            while (groupRs.next()) {
+                int groupId = groupRs.getInt("Group_ID");
+                String groupName = groupRs.getString("Group_Name");
+
+                // Lấy các thông số thuộc group này cho sản phẩm
+                String specSql = "SELECT st.Spec_ID, st.Spec_Name, ps.Spec_Value "
+                        + "FROM Spec_Type st "
+                        + "LEFT JOIN Product_Spec ps ON st.Spec_ID = ps.Spec_ID AND ps.Product_ID = ? "
+                        + "WHERE st.Group_ID = ? "
+                        + "ORDER BY st.Spec_ID";
+                try ( PreparedStatement specPs = conn.prepareStatement(specSql)) {
+                    specPs.setInt(1, productId);
+                    specPs.setInt(2, groupId);
+                    ResultSet specRs = specPs.executeQuery();
+                    List<ProductSpec> specList = new ArrayList<>();
+                    while (specRs.next()) {
+                        ProductSpec spec = new ProductSpec();
+                        spec.setSpecId(specRs.getInt("Spec_ID"));
+                        spec.setSpecName(specRs.getString("Spec_Name"));
+                        spec.setSpecValue(specRs.getString("Spec_Value"));
+                        specList.add(spec);
+                    }
+                    groupList.add(new model.GroupSpecDTO(groupId, groupName, specList));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groupList;
+    }
+
     public static void main(String[] args) {
         ProductDao dao = new ProductDao();
-        for (Product p : dao.getAllProduct()) {
-            System.out.println(p.toString());
+        for (GroupSpecDTO p : dao.getGroupedSpecsByProductId(3, 2)) {
+            System.out.println(p.getSpecList());
         }
     }
 

@@ -227,7 +227,7 @@
                                     <select name="status" class="form-select">
                                         <option value="">All Status</option>
                                         <option value="1" <c:if test="${param.status == '1'}">selected</c:if>>Active</option>
-                                        <option value="0" <c:if test="${param.status == '0'}">Hidden</option>
+                                        <option value="0" <c:if test="${param.status == '0'}">selected</c:if>>Hidden</option>
                                         </select>
                                     </div>
                                     <div class="col">
