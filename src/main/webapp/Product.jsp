@@ -3,7 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     Product product = (Product) request.getAttribute("product");
-
+     session.setAttribute("redirectAfterLogin", "product?action=details&id=" + product.getPro_ID());
+     
+    // Lấy danh sách feedback cho sản phẩm này
+    java.util.List<model.Review> productReviews = null;
+    int currentUserId = -1;
+    if (session.getAttribute("user") != null) {
+        currentUserId = ((model.User)session.getAttribute("user")).getID();
+    }
+    dao.ReviewDao reviewDao = new dao.ReviewDao();
+    productReviews = reviewDao.getReviewsByProductId(product.getPro_ID());
 %>
 <!DOCTYPE html>
 <html>
@@ -399,9 +408,74 @@
                         <% } %>
                     </div>
                 </div>
-            </div>
+
             <% }%>
+                    <!-- FORM FEEDBACK USER -->
+<% if (session.getAttribute("user") != null && ((model.User)session.getAttribute("user")).getRole_ID() == 3) { %>
+<div class="card mt-4 shadow-sm">
+    <div class="card-header bg-warning text-dark fw-bold">
+        Đánh giá sản phẩm
+    </div>
+    <form method="post" action="product">
+        <input type="hidden" name="action" value="addFeedback"/>
+        <input type="hidden" name="productId" value="<%= product.getPro_ID() %>"/>
+        <input type="hidden" name="userId" value="<%= ((model.User)session.getAttribute("user")).getID() %>"/>
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label">Đánh giá (1-5 sao)</label>
+                <select class="form-select" name="rating" required>
+                    <option value="5">5 ★★★★★</option>
+                    <option value="4">4 ★★★★</option>
+                    <option value="3">3 ★★★</option>
+                    <option value="2">2 ★★</option>
+                    <option value="1">1 ★</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Bình luận</label>
+                <textarea class="form-control" name="comment" rows="3" maxlength="255" required placeholder="Nhập nhận xét của bạn..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-warning">Gửi đánh giá</button>
         </div>
+    </form>
+</div>
+<% } %>
+
+<!-- HIỂN THỊ FEEDBACK CỦA USER ĐANG ĐĂNG NHẬP -->
+<div class="card mt-4">
+    <div class="card-header bg-light fw-bold">Đánh giá của bạn</div>
+    <div class="card-body" id="feedbackList">
+        <%
+            model.Review userReview = null;
+            if (productReviews != null) {
+                for (model.Review rv : productReviews) {
+                    if (rv.getUser_ID() == currentUserId) {
+                        userReview = rv;
+                        break;
+                    }
+                }
+            }
+            if (userReview != null) {
+        %>
+            <div class="border-bottom pb-2 mb-2">
+                <span class="badge bg-warning text-dark me-2"> <%= userReview.getRating() %> ★</span>
+                <span><%= userReview.getComment() %></span>
+                <span class="text-muted float-end" style="font-size:0.9em"><%= userReview.getReview_Date() != null ? userReview.getReview_Date().toString() : "" %></span>
+            </div>
+        <%
+            } else {
+        %>
+            <div class="text-muted">Bạn chưa có đánh giá nào cho sản phẩm này.</div>
+        <%
+            }
+        %>
+    </div>
+</div>
+
+
+        </div>
+            
+            
         <%@include file="Footer.jsp" %>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>

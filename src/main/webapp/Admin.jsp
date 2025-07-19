@@ -198,9 +198,9 @@
                                     type: 'line',
                                     data: {
                                         labels: labels,
-                                                                            datasets: [{
-                                            label: 'Revenue',
-                                            data: data,
+                                        datasets: [{
+                                                label: 'Revenue',
+                                                data: data,
                                                 borderColor: 'rgba(75, 192, 192, 1)',
                                                 fill: false
                                             }]
@@ -285,8 +285,136 @@
                             </table>
                         </c:when>
                         <c:when test="${section == 'Category Management (Categories)'}">
-                            <h2>Category Management</h2>
-                            <p>Manage categories here.</p>
+                            <h1 style="text-align: center;">Caterory Managament</h1>
+                            <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add category</button>
+                            <!-- Bảng danh mục sử dụng Bootstrap chuẩn -->
+                            <table class="table table-bordered table-hover table-light align-middle rounded shadow-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Image</th>
+                                        <th>Status</th>
+                                        <th>Created_At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="cat" items="${categories}">
+                                        <tr>
+                                            <td>${cat.cat_ID}</td>
+                                            <td>${cat.cat_Name}</td>
+                                            <td>${cat.cat_Description}</td>
+                                            <td>
+                                                <c:if test="${not empty cat.cat_img}">
+                                                    <img src="${cat.cat_img}" alt="Ảnh" style="width:50px;height:50px;object-fit:cover;"/>
+                                                </c:if>
+                                            </td>
+                                            <td>
+                                                <form method="post" action="admin?section=Category Management (Categories)" style="display:inline;">
+
+                                                    <input type="hidden" name="toggleCategoryId" value="${cat.cat_ID}" />
+                                                    <input type="hidden" name="toggleCategoryStatus" value="${cat.cat_Status ? 0 : 1}" />
+                                                    <button type="submit" class="btn btn-sm ${cat.cat_Status ? 'btn-success' : 'btn-secondary'}">
+                                                        ${cat.cat_Status ? 'Hiện' : 'Ẩn'}
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td>${cat.created_At}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal${cat.cat_ID}">Edit</button>
+                                                <form method="post" action="admin?section=Category Management (Categories)" style="display:inline;">
+                                                    <input type="hidden" name="deleteCategoryId" value="${cat.cat_ID}" />
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xóa danh mục này?')">Detele</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                            <!-- Modal thêm danh mục đặt ngoài bảng -->
+                            <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form method="post" action="admin?section=Category Management (Categories)">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addCategoryModalLabel">Thêm danh mục</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Name</label>
+                                                    <input name="addCategoryName" class="form-control" required />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Description</label>
+                                                    <input name="addCategoryDescription" class="form-control" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Image</label>
+                                                    <input name="addCategoryImage" class="form-control" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Status</label>
+                                                    <select name="addCategoryStatus" class="form-select">
+                                                        <option value="1">Hiện</option>
+                                                        <option value="0">Ẩn</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                <button type="submit" class="btn btn-primary">Thêm</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal sửa danh mục đặt ngoài bảng -->
+                            <c:forEach var="cat" items="${categories}">
+                                <div class="modal fade" id="editCategoryModal${cat.cat_ID}" tabindex="-1" aria-labelledby="editCategoryModalLabel${cat.cat_ID}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form method="post" action="admin?section=Category Management (Categories)">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editCategoryModalLabel${cat.cat_ID}">Sửa danh mục</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="editCategoryId" value="${cat.cat_ID}" />
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tên</label>
+                                                        <input name="editCategoryName" value="${cat.cat_Name}" class="form-control" required />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Mô tả</label>
+                                                        <input name="editCategoryDescription" value="${cat.cat_Description}" class="form-control" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ảnh</label>
+                                                        <input name="editCategoryImage" value="${cat.cat_img}" class="form-control" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Trạng thái</label>
+                                                        <select name="editCategoryStatus" class="form-select">
+                                                            <option value="1" <c:if test="${cat.cat_Status}">selected</c:if>>Hiện</option>
+                                                            <option value="0" <c:if test="${!cat.cat_Status}">selected</c:if>>Ẩn</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                        <button type="submit" class="btn btn-primary">Lưu</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </c:forEach>
+                            <!-- Import Bootstrap JS -->
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
                         </c:when>
                         <c:when test="${section == 'Order Management (Orders)'}">
                             <h2>Order Management</h2>
@@ -298,7 +426,7 @@
                         </c:when>
                         <c:when test="${section == 'User_List' || action == 'list'}">
                             <h2>User Management</h2>
-                            
+
                             <!-- Success/Error Messages -->
                             <c:if test="${not empty param.successMsg}">
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -312,7 +440,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                 </div>
                             </c:if>
-                            
+
                             <div class="mb-2 text-end">
                                 <a class="btn btn-success" href="user?action=create"><i class="bi bi-file-earmark-plus"></i> Create</a>
                             </div>
@@ -360,14 +488,151 @@
                             </table>
                         </c:when>
                         <c:when test="${section == 'Customer Feedback (Feedbacks)'}">
-                            <h2>Customer Feedback</h2>
-                            <p>View feedbacks here.</p>
+                             <h2>Customer Feedback</h2>
+                            <!-- Nút mở modal thêm feedback -->
+                            <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addReviewModal">Thêm Feedback</button>
+                            <!-- Modal thêm feedback -->
+                            <div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <form method="post" action="admin?section=Customer Feedback (Feedbacks)">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="addReviewModalLabel">Thêm Feedback</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="mb-3">
+                                        <label class="form-label">User ID</label>
+                                        <input name="addUserId" class="form-control" required />
+                                      </div>
+                                      <div class="mb-3">
+                                        <label class="form-label">Product ID</label>
+                                        <input name="addProductId" class="form-control" required />
+                                      </div>
+                                      <div class="mb-3">
+                                        <label class="form-label">Order ID</label>
+                                        <input name="addOrderId" class="form-control" required />
+                                      </div>
+                                      <div class="mb-3">
+                                        <label class="form-label">Rating</label>
+                                        <input name="addRating" type="number" min="1" max="5" class="form-control" required />
+                                      </div>
+                                      <div class="mb-3">
+                                        <label class="form-label">Comment</label>
+                                        <textarea name="addComment" class="form-control"></textarea>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                      <button type="submit" class="btn btn-primary">Thêm</button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-light table-striped align-middle rounded shadow-sm">
+                                <thead class="table-light text-center align-middle">
+                                    <tr style="vertical-align: middle;">
+                                        <th class="rounded-start">ID</th>
+                                        <th>User ID</th>
+                                        <th>Product ID</th>
+                                        <th>Order ID</th>
+                                        <th>Đánh giá</th>
+                                        <th>Bình luận</th>
+                                        <th>Ngày đánh giá</th>
+                                        <th class="rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="r" items="${reviews}">
+                                        <tr>
+                                            <td class="text-center">${r.review_ID}</td>
+                                            <td class="text-center">${r.user_ID}</td>
+                                            <td class="text-center">${r.product_ID}</td>
+                                            <td class="text-center">${r.order_ID}</td>
+                                            <td class="text-center">
+                                                <span class="badge bg-warning text-dark" style="font-size:1rem;">${r.rating} <i class="fa fa-star text-warning"></i></span>
+                                            </td>
+                                            <td style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${r.comment}</td>
+                                            <td class="text-center"><fmt:formatDate value="${r.review_Date}" pattern="dd/MM/yyyy HH:mm"/></td>
+                                            <td class="text-center">
+                                                <!-- Nút sửa -->
+                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editReviewModal${r.review_ID}">Sửa</button>
+                                                <!-- Modal sửa đẹp -->
+                                                <div class="modal fade" id="editReviewModal${r.review_ID}" tabindex="-1" aria-labelledby="editReviewModalLabel${r.review_ID}" aria-hidden="true">
+                                                  <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content shadow rounded-4">
+                                                      <div class="modal-header bg-primary text-white rounded-top-4">
+                                                        <h5 class="modal-title" id="editReviewModalLabel${r.review_ID}"><i class="bi bi-pencil-square"></i> Sửa Feedback</h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                                      </div>
+                                                      <form method="post" action="admin?section=Customer Feedback (Feedbacks)">
+                                                        <div class="modal-body">
+                                                          <input type="hidden" name="editReviewId" value="${r.review_ID}" />
+                                                          <div class="mb-3">
+                                                            <label class="form-label">Đánh giá (Rating)</label>
+                                                            <select class="form-select" name="editRating" required>
+                                                              <option value="1" ${r.rating==1?'selected':''}>1 ★</option>
+                                                              <option value="2" ${r.rating==2?'selected':''}>2 ★★</option>
+                                                              <option value="3" ${r.rating==3?'selected':''}>3 ★★★</option>
+                                                              <option value="4" ${r.rating==4?'selected':''}>4 ★★★★</option>
+                                                              <option value="5" ${r.rating==5?'selected':''}>5 ★★★★★</option>
+                                                            </select>
+                                                          </div>
+                                                          <div class="mb-3">
+                                                            <label class="form-label">Bình luận</label>
+                                                            <textarea class="form-control" name="editComment" rows="3" maxlength="255" placeholder="Nhập bình luận..." required oninput="document.getElementById('charCount${r.review_ID}').textContent = this.value.length;">${r.comment}</textarea>
+                                                            <div class="form-text text-end"><span id="charCount${r.review_ID}">${r.comment != null ? r.comment.length() : 0}</span>/255 ký tự</div>
+                                                          </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                          <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Lưu thay đổi</button>
+                                                        </div>
+                                                      </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <!-- Nút xóa -->
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteReviewModal${r.review_ID}">Xóa</button>
+                                                <!-- Modal xóa đẹp -->
+                                                <div class="modal fade" id="deleteReviewModal${r.review_ID}" tabindex="-1" aria-labelledby="deleteReviewModalLabel${r.review_ID}" aria-hidden="true">
+                                                  <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content shadow rounded-4">
+                                                      <div class="modal-header bg-danger text-white rounded-top-4">
+                                                        <h5 class="modal-title" id="deleteReviewModalLabel${r.review_ID}"><i class="bi bi-exclamation-triangle"></i> Xác nhận xóa</h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                                      </div>
+                                                      <form method="post" action="admin?section=Customer Feedback (Feedbacks)">
+                                                        <div class="modal-body">
+                                                          <input type="hidden" name="deleteReviewId" value="${r.review_ID}" />
+                                                          <p>Bạn có chắc chắn muốn <b>xóa</b> feedback này?</p>
+                                                          <div class="alert alert-light border">
+                                                            <div><b>Rating:</b> ${r.rating} ★</div>
+                                                            <div><b>Bình luận:</b> ${r.comment}</div>
+                                                          </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                          <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Xóa</button>
+                                                        </div>
+                                                      </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                            </div>
                         </c:when>
                     </c:choose>
                 </div>
             </div>
         </div>
-        
+
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>

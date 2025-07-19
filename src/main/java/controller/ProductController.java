@@ -64,7 +64,6 @@ public class ProductController extends HttpServlet {
         String action = request.getParameter("action");
         String CatID = request.getParameter("cat_ID");
 
-        
         // --- BẮT ĐẦU: Xử lý cho admin quản lý sản phẩm ---
         String section = request.getParameter("section");
         request.setAttribute("section", section);
@@ -119,7 +118,6 @@ public class ProductController extends HttpServlet {
         }
         // --- KẾT THÚC: Xử lý cho admin quản lý sản phẩm ---
 
-        
         if (action == null) {
             action = "list";
             request.setAttribute("action", action);
@@ -139,10 +137,10 @@ public class ProductController extends HttpServlet {
             request.setAttribute("products", proDao.getProductByCategory(CatID));
             request.getRequestDispatcher("Product_by_Category.jsp").forward(request, response);
             return;
-        } 
-        
+        }
+
         if ("details".equals(action)) {
-             String String_id = request.getParameter("id");
+            String String_id = request.getParameter("id");
             int id = Integer.parseInt(String_id);
             Product product = proDao.getProductById(id);
             // Lấy groupList (thông số kỹ thuật)
@@ -175,7 +173,7 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-              String action = request.getParameter("action");
+        String action = request.getParameter("action");
         jakarta.servlet.http.HttpSession session = request.getSession(false);
         model.User user = (session != null) ? (model.User) session.getAttribute("user") : null;
         if (action != null && (action.equals("add") || action.equals("edit"))) {
@@ -212,11 +210,45 @@ public class ProductController extends HttpServlet {
                 String colors = request.getParameter("pro_Colors");
                 String specs = request.getParameter("pro_Specs");
                 String detailImg = request.getParameter("pro_Detail_Image");
-               Product p = new Product(id, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, detailImg, null);
+                Product p = new Product(id, catId, name, desc, img, price, quantity, status ? 1 : 0, colors, detailImg, null);
                 proDao.updateProduct(p);
                 response.sendRedirect("product?action=admin");
                 return;
             }
+        } else if (action != null && action.equals("addFeedback")) {
+            try {
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                int rating = Integer.parseInt(request.getParameter("rating"));
+                String comment = request.getParameter("comment");
+                Integer orderId = null;
+                if (request.getParameter("orderId") != null && !request.getParameter("orderId").isEmpty()) {
+                    orderId = Integer.parseInt(request.getParameter("orderId"));
+                }
+                dao.ReviewDao reviewDao = new dao.ReviewDao();
+                System.out.println("DEBUG: addReview called with userId=" + userId + ", productId=" + productId + ", rating=" + rating + ", comment=" + comment + ", orderId=" + orderId);
+                reviewDao.addReview(userId, productId, orderId, rating, comment);
+                // Nếu là AJAX request, trả về JSON
+                String requestedWith = request.getHeader("X-Requested-With");
+                if (requestedWith != null && requestedWith.equals("XMLHttpRequest")) {
+                    response.setContentType("application/json;charset=UTF-8");
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    String now = sdf.format(new java.util.Date());
+                    response.getWriter().write("{\"success\":true,\"rating\":" + rating + ",\"comment\":\"" + comment.replace("\"", "\\\"") + "\",\"reviewDate\":\"" + now + "\"}");
+                    return;
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                String requestedWith = request.getHeader("X-Requested-With");
+                if (requestedWith != null && requestedWith.equals("XMLHttpRequest")) {
+                    response.setContentType("application/json;charset=UTF-8");
+                    response.getWriter().write("{\"success\":false}");
+                    return;
+                }
+            }
+            // Quay lại trang chi tiết sản phẩm nếu không phải AJAX
+            response.sendRedirect("product?action=details&id=" + request.getParameter("productId"));
+            return;
         } else {
             processRequest(request, response);
         }
