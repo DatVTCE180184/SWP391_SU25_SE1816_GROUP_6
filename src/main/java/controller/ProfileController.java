@@ -62,6 +62,12 @@ public class ProfileController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        // 3 dòng này mới chèn cho your oder 
+        
+        System.out.println("[DEBUG] User in session: " + user);
+        if (user != null) {
+            System.out.println("[DEBUG] user.getID(): " + user.getID());
+        }
         if (user == null || user.getRole_ID() == 0) {
             session.setAttribute("redirectAfterLogin", "profile");
             request.getRequestDispatcher("signin?action=signin").forward(request, response);
@@ -71,6 +77,31 @@ public class ProfileController extends HttpServlet {
         UserDao userDAO = new UserDao();
         user = userDAO.getUserById(user.getID());
         session.setAttribute("user", user); // Cập nhật session
+
+        // Xử lý view đơn hàng
+        String view = request.getParameter("view");
+        if ("orders".equals(view)) {
+            dao.OrderDao orderDao = new dao.OrderDao();
+            java.util.List<model.Order> orderList = orderDao.getOrdersByUserId(user.getID());
+            // 4 dòng này mới them cho your oder benh profile 
+            System.out.println("[DEBUG] User ID: " + user.getID());
+            System.out.println("[DEBUG] orderList.size(): " + orderList.size());
+            for (model.Order o : orderList) {
+                System.out.println("[DEBUG] Order: " + o.getOrder_ID() + " - " + o.getOrder_Date());
+            }
+            request.setAttribute("orderList", orderList);
+            request.setAttribute("showOrders", true);
+            // them cho puschase history của profile
+        } else if ("history".equals(view)) {
+            dao.OrderDao orderDao = new dao.OrderDao();
+            java.util.List<model.Order> orderList = orderDao.getOrdersByUserId(user.getID());
+            for (model.Order order : orderList) {
+                java.util.List<String> productNames = orderDao.getProductNamesByOrderId(order.getOrder_ID());
+                order.setProductNames(productNames);
+            }
+            request.setAttribute("orderList", orderList);
+            request.setAttribute("showHistory", true);
+        }
 
         request.getRequestDispatcher("Profile.jsp").forward(request, response);
     }

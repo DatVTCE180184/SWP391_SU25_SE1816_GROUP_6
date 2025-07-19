@@ -111,18 +111,22 @@ public class OrderController extends HttpServlet {
 
             int newOrder = orDao.createOrder(cart, userID, fullName, phone, note, Payment_Method, address);
 
-            if (newOrder == 1) {
+             if (newOrder == 1) {
                 // Xóa giỏ hàng sau khi đặt hàng thành công
                 session.removeAttribute("cart");
                 request.setAttribute("OrderCompletedOrNot", "completed");
+                request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
+                return;
+
             } else {
                 request.setAttribute("OrderCompletedOrNot", "failed");
                 System.out.println("userID: " + userID);
                 System.out.println("cart: " + cart);
                 System.out.println("Payment_Method: " + Payment_Method);
                 System.out.println("address: " + address);
+                request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
+                return;
             }
-            request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
 
         } catch (Exception e) {
             System.out.println("❌ Đặt hàng thất bại với thông tin:");

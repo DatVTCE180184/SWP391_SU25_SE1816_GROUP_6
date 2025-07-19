@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -178,73 +179,144 @@
         <div class="container-profile">
             <div class="sidebar">
                 <div class="sidebar-menu">
-                    <a href="#"><i class="fas fa-box"></i> Your Orders</a>
-                    <a href="#"><i class="fas fa-history"></i> Purchase History</a>
-                    <a href="#" class="active"><i class="fas fa-user"></i> Personal Information</a>
-                    <a href="#"><i class="fas fa-star"></i> Manage Reviews</a>
-                    <a href="signin?action=logout" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
-            <div class="main-content">
-                <h1>Update Profile</h1>
-                <c:if test="${not empty message}">
-                    <div class="message success">${message}</div>
-                </c:if>
-                <c:if test="${not empty error}">
-                    <div class="message error">${error}</div>
-                </c:if>
-                <form class="profile-form" action="profile" method="post">
-                    <div class="form-left">
-                        <div class="form-group">
-                            <label for="username">Username:</label>
-                            <input type="text" id="username" name="username" value="<%= acc.getUsername()%>">
-                        </div>
-                         <div class="form-group">
-                            <label for="fullname">Full Name:</label>
-                            <input type="text" id="fullname" name="fullname" value="<%= acc.getFullname()%>" placeholder="Enter your full name">
-                        </div>
-                        <div class="form-group">
-                            <label>Gender:</label>
-                            <div class="gender-options">
-                                <label>
-                                    <input type="radio" name="gender" value="1" <%= acc.getGender() == 1 ? "checked" : ""%>> Male
-                                </label>
-                                <label>
-                                    <input type="radio" name="gender" value="2" <%= acc.getGender() == 2 ? "checked" : ""%>> Female
-                                </label>
-                                <label>
-                                    <input type="radio" name="gender" value="3" <%= acc.getGender() == 3 ? "checked" : ""%>> Other
-                                </label>
-                            </div>
-                        </div>
-                       
 
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" value="<%= acc.getEmail()%>" placeholder="Enter your email">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Phone:</label>
-                            <input type="text" id="phone" name="phone" value="<%= acc.getPhone()%>" placeholder="Enter your phone number">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="address">Address:</label>
-                            <input type="text" id="address" name="address"  value="<%= acc.getAddress()%>" placeholder="Enter your address">
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <label for="newPassword">New Password:</label>
-                            <input type="password" id="newPassword" name="newPassword" placeholder="Leave blank if you do not want to change password">
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm New Password:</label>
-                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter new password">
-                        </div>
-                        <button type="submit" class="btn-save">Save Changes</button>
+                    <a href="profile" <c:if test="${!showOrders && !showHistory}">class="active"</c:if>><i class="fas fa-user"></i> Personal Information</a>
+                    <a href="profile?view=orders" <c:if test="${showOrders}">class="active"</c:if>><i class="fas fa-box"></i> Your Orders</a>
+                    <a href="profile?view=history" <c:if test="${showHistory}">class="active"</c:if>><i class="fas fa-history"></i> Purchase History</a>
+                        <a href="#"><i class="fas fa-star"></i> Manage Reviews</a>
+                        <a href="signin?action=logout" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
-                </form>
+                </div>
+                <div class="main-content">
+                <c:choose>
+                    <c:when test="${showOrders}">
+                        <h1>Order placed</h1>
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Recipient name</th>
+                                    <th>Order code</th>
+                                    <th>Date set</th>
+                                    <th>Total amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="order" items="${orderList}" varStatus="loop">
+                                    <tr>
+                                        <td>${loop.index + 1}</td>
+                                        <td>${order.order_FullName}</td>
+                                        <td>${order.order_ID}</td>
+                                        <td>${order.order_Date}</td>
+                                        <td>${order.total_Amout}</td>
+                                        <td>${order.order_Status}</td>
+                                    </tr>
+                                </c:forEach>
+                                <c:if test="${empty orderList}">
+                                    <tr>
+                                        <td colspan="6" class="text-center">You have no orders yet.</td>
+                                    </tr>
+                                </c:if>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:when test="${showHistory}">
+                        <h1>Purchase History</h1>
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Order code</th>
+                                    <th>Date of purchase</th>
+                                    <th>Total amount</th>
+                                    <th>Ordered products</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="order" items="${orderList}" varStatus="loop">
+                                    <tr>
+                                        <td>${loop.index + 1}</td>
+                                        <td>${order.order_ID}</td>
+                                        <td>${order.order_Date}</td>
+                                        <td>${order.total_Amout}</td>
+                                        <td>
+                                            <c:forEach var="pname" items="${order.productNames}" varStatus="loop">
+                                                ${pname}<c:if test="${!loop.last}">, </c:if>
+                                            </c:forEach>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                <c:if test="${empty orderList}">
+                                    <tr>
+                                        <td colspan="5" class="text-center">You have no orders yet.</td>
+                                    </tr>
+                                </c:if>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <h1>Update Profile</h1>
+                        <c:if test="${not empty message}">
+                            <div class="message success">${message}</div>
+                        </c:if>
+                        <c:if test="${not empty error}">
+                            <div class="message error">${error}</div>
+                        </c:if>
+                        <form class="profile-form" action="profile" method="post">
+                            <div class="form-left">
+                                <div class="form-group">
+                                    <label for="username">Username:</label>
+                                    <input type="text" id="username" name="username" value="<%= acc.getUsername()%>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fullname">Full Name:</label>
+                                    <input type="text" id="fullname" name="fullname" value="<%= acc.getFullname()%>" placeholder="Enter your full name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Gender:</label>
+                                    <div class="gender-options">
+                                        <label>
+                                            <input type="radio" name="gender" value="1" <%= acc.getGender() == 1 ? "checked" : ""%>> Male
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="gender" value="2" <%= acc.getGender() == 2 ? "checked" : ""%>> Female
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="gender" value="3" <%= acc.getGender() == 3 ? "checked" : ""%>> Other
+                                        </label>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" value="<%= acc.getEmail()%>" placeholder="Enter your email">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone">Phone:</label>
+                                    <input type="text" id="phone" name="phone" value="<%= acc.getPhone()%>" placeholder="Enter your phone number">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Address:</label>
+                                    <input type="text" id="address" name="address"  value="<%= acc.getAddress()%>" placeholder="Enter your address">
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="newPassword">New Password:</label>
+                                    <input type="password" id="newPassword" name="newPassword" placeholder="Leave blank if you do not want to change password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm New Password:</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter new password">
+                                </div>
+                                <button type="submit" class="btn-save">Save Changes</button>
+                            </div>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <script>

@@ -32,15 +32,20 @@ public class OrderDao extends DBContext {
         try {
 
             // 1. Insert vào bảng Orders
-            String sql = "INSERT INTO Orders (User_ID, Shipping_Address, Order_Phone, Note, Total_Amount, Payment_Method, Status)\n"
-                    + "VALUES (?, ?, ?, ?, ?, ?, 'Processing');";
+//            String sql = "INSERT INTO Orders (User_ID, Shipping_Address, Order_Phone, Note, Total_Amount, Payment_Method, Status)\n"
+//                    + "VALUES (?, ?, ?, ?, ?, ?, 'Processing');";
+// mới sữa 14/7
+            String sql = "INSERT INTO Orders (User_ID, Shipping_Address, Order_Phone, Order_FullName, Note, Total_Amount, Payment_Method, Status)\n"
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, 'Processing')";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, userID);
             ps.setString(2, address);
             ps.setString(3, phone);
-            ps.setString(4, note);
-            ps.setDouble(5, countAmout(cart));
-            ps.setString(6, Payment_Method.toUpperCase());
+            ps.setString(4, fullName); // Order_FullName
+            ps.setString(5, note);
+            ps.setDouble(6, countAmout(cart));
+            ps.setString(7, Payment_Method.toUpperCase());
+
             int rs1 = ps.executeUpdate();
             if (rs1 == 0) {
                 throw new Exception("Không thể tạo đơn hàng mới.");
@@ -120,7 +125,7 @@ public class OrderDao extends DBContext {
 
         return totalAmount;
     }
-    
+
 //    
 //    // Tính tổng tiền
 //    private double countAmout(List<CartItem> cart) {
@@ -130,7 +135,6 @@ public class OrderDao extends DBContext {
 //        }
 //        return totalAmount;
 //    }
-
     // Thống kê số lượng đơn hàng theo trạng thái
     public Map<String, Integer> getOrderStatusStats() {
         Map<String, Integer> stats = new HashMap<>();
@@ -146,14 +150,13 @@ public class OrderDao extends DBContext {
         }
         return stats;
     }
-    
-    
+
     // Top sản phẩm bán chạy nhất
     public List<Map<String, Object>> getTopSellingProducts(int topN) {
         List<Map<String, Object>> result = new ArrayList<>();
-        String sql = "SELECT p.Product_Name, SUM(od.Quantity) as totalSold " +
-                     "FROM Order_Detail od JOIN Product p ON od.Product_ID = p.Product_ID " +
-                     "GROUP BY p.Product_Name ORDER BY totalSold DESC LIMIT ?";
+        String sql = "SELECT p.Product_Name, SUM(od.Quantity) as totalSold "
+                + "FROM Order_Detail od JOIN Product p ON od.Product_ID = p.Product_ID "
+                + "GROUP BY p.Product_Name ORDER BY totalSold DESC LIMIT ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, topN);
@@ -169,13 +172,12 @@ public class OrderDao extends DBContext {
         }
         return result;
     }
-    
-    
+
     // Doanh thu theo tháng gần nhất
     public Map<String, Double> getMonthlyRevenue(int months) {
         Map<String, Double> revenue = new LinkedHashMap<>();
-        String sql = "SELECT DATE_FORMAT(Created_At, '%Y-%m') as month, SUM(Total_Amount) " +
-                     "FROM Orders GROUP BY month ORDER BY month DESC LIMIT ?";
+        String sql = "SELECT DATE_FORMAT(Created_At, '%Y-%m') as month, SUM(Total_Amount) "
+                + "FROM Orders GROUP BY month ORDER BY month DESC LIMIT ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, months);
@@ -189,7 +191,6 @@ public class OrderDao extends DBContext {
         return revenue;
     }
 
-    
     // Lấy tất cả đơn hàng
     public List<Order> getAllOrders() {
         List<Order> list = new ArrayList<>();
@@ -201,21 +202,48 @@ public class OrderDao extends DBContext {
                 Order o = new Order();
                 o.setOrder_ID(rs.getInt("Order_ID"));
                 o.setUser_ID(rs.getInt("User_ID"));
+                o.setOrder_FullName(rs.getString("Order_FullName"));
                 o.setShipping_Address(rs.getString("Shipping_Address"));
                 o.setOrder_Phone(rs.getString("Order_Phone"));
                 o.setNote(rs.getString("Note"));
                 o.setTotal_Amout(rs.getDouble("Total_Amount"));
                 o.setPayment_Method(rs.getString("Payment_Method"));
                 o.setOrder_Status(rs.getString("Status"));
-//                o.setCreated_At(rs.getTimestamp("Created_At"));
+                o.setOrder_Date(rs.getString("Created_At")); // Sử dụng Created_At làm ngày đặt hàng
+                list.add(o);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Lấy danh sách đơn hàng theo User_ID (PHAN YOR ORDER)
+    public List<Order> getOrdersByUserId(int userId) {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT * FROM Orders WHERE User_ID = ? ORDER BY Created_At DESC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order o = new Order();
+                o.setOrder_ID(rs.getInt("Order_ID"));
+                o.setUser_ID(rs.getInt("User_ID"));
+                o.setOrder_FullName(rs.getString("Order_FullName"));
+                o.setShipping_Address(rs.getString("Shipping_Address"));
+                o.setOrder_Phone(rs.getString("Order_Phone"));
+                o.setNote(rs.getString("Note"));
+                o.setTotal_Amout(rs.getDouble("Total_Amount"));
+                o.setPayment_Method(rs.getString("Payment_Method"));
+                o.setOrder_Status(rs.getString("Status"));
+                o.setOrder_Date(rs.getString("Created_At")); // Sử dụng Created_At làm ngày đặt hàng
                 list.add(o);
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return list;
     }
 
-
-    
     // Cập nhật trạng thái đơn hàng
     public boolean updateOrderStatus(int orderId, String status) {
         String sql = "UPDATE Orders SET Status = ? WHERE Order_ID = ?";
@@ -224,12 +252,12 @@ public class OrderDao extends DBContext {
             ps.setString(1, status);
             ps.setInt(2, orderId);
             return ps.executeUpdate() > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
-    
-    
-    
+
     // Xóa đơn hàng
     public boolean deleteOrder(int orderId) {
         String sql = "DELETE FROM Orders WHERE Order_ID = ?";
@@ -237,11 +265,32 @@ public class OrderDao extends DBContext {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, orderId);
             return ps.executeUpdate() > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
+
+    // Lấy danh sách tên sản phẩm theo Order_ID cho thang puschase history
+    public List<String> getProductNamesByOrderId(int orderId) {
+        List<String> productNames = new ArrayList<>();
+        String sql = "SELECT p.Product_Name FROM Order_Detail od JOIN Product p ON od.Product_ID = p.Product_ID WHERE od.Order_ID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                productNames.add(rs.getString("Product_Name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productNames;
+    }
+
     // Class to hold total revenue and total orders
     public static class RevenueStats {
+
         private final double totalRevenue;
         private final int totalOrders;
 
@@ -276,7 +325,6 @@ public class OrderDao extends DBContext {
         }
         return new RevenueStats(0, 0);
     }
-
 
     public static void main(String[] args) {
         OrderDao orDao = new OrderDao();

@@ -21,6 +21,7 @@ public class Order {
     private double Total_Amout;
     private String Payment_Method;
     private String Order_Status;
+    private java.util.List<String> productNames;// cai nay cho puschase history cua profile
 
     public Order() {
         this.Order_ID = -1;
@@ -126,6 +127,13 @@ public class Order {
 
     public void setOrder_FullName(String Order_FullName) {
         this.Order_FullName = Order_FullName;
+    }
+    // puschase history cua profile
+    public java.util.List<String> getProductNames() {
+        return productNames;
+    }
+    public void setProductNames(java.util.List<String> productNames) {
+        this.productNames = productNames;
     }
 
     @Override
